@@ -136,7 +136,7 @@ void AProject_CarDeerPlayerController::LeftMousePress()
 }
 
 void AProject_CarDeerPlayerController::LeftMouseRelease()
-{	
+{
 	if(TargetCard)
 	{
 		if(IsCardInDeployZone)
