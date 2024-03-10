@@ -49,6 +49,13 @@ void AProject_CarDeerPlayerController::PlayerTick(float DeltaTime)
 	{
 		FollowTime = 0.f;
 	}
+
+	if(IsLeftMouseDown)
+	{
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White,TEXT("LMouseHold"));
+		LeftMouseHold();
+	}
+	
 }
 
 void AProject_CarDeerPlayerController::SetupInputComponent()
@@ -121,11 +128,14 @@ void AProject_CarDeerPlayerController::LeftMousePress()
 	AParentCard* ParentCard = New<AParentCard>(FMemStack::Get(), 1);
 	ACardPile* CardPile = New<ACardPile>(FMemStack::Get(), 1);
 	GetHitResultUnderCursor(ECC_Visibility, true, HitResult);
-	if(HitResult.GetActor()->GetClass()->IsChildOf(ParentCard->GetClass()))
+	if(Cast<AParentCard>(HitResult.GetActor()))
 	{
 		TargetCard = Cast<AParentCard>(HitResult.GetActor());
+		TargetCard->bShouldPlay = false;
+		TargetCard->bSHouldReturn = false;
+		HaveCardInHand = true;
 	}
-	else if(HitResult.GetActor()->GetClass()->IsChildOf(CardPile->GetClass()))
+	else if(Cast<ACardPile>(HitResult.GetActor()))
 	{
 		if(!TargetCardPile)
 		{
@@ -133,6 +143,7 @@ void AProject_CarDeerPlayerController::LeftMousePress()
 		}
 		DrawCard();
 	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,TEXT("Left Mouse Down"));
 }
 
 void AProject_CarDeerPlayerController::LeftMouseRelease()
@@ -141,47 +152,37 @@ void AProject_CarDeerPlayerController::LeftMouseRelease()
 	{
 		if(IsCardInDeployZone)
 		{
-			PlayCard();
+			TargetCard->bShouldPlay = true;
+			HaveCardInHand = false;
 		}
 		else
 		{
-			ReturnCard();
+			TargetCard->bSHouldReturn = true;
+			HaveCardInHand = false;
 		}
 		TargetCard = nullptr;
 	}
+	IsLeftMouseDown = false;
 }
 
 void AProject_CarDeerPlayerController::LeftMouseHold()
 {
 	if(HaveCardInHand)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White,TEXT("ShouldMoveCard"));
 		FVector WorldLocation;
 		FVector WorldDirection;
 		DeprojectMousePositionToWorld(WorldLocation, WorldDirection);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White,WorldLocation.ToString());
 		MoveCard(WorldLocation, WorldDirection);
 		//TargetCard->SetActorLocation(FMath::VInterpTo(TargetCard->GetActorLocation(), WorldLocation+WorldDirection*1200, 0.2, 2));
 	}
 }
 
-void AProject_CarDeerPlayerController::GetTargetCard()
-{
-	
-}
-
 void AProject_CarDeerPlayerController::MoveCard(FVector WorldLocation, FVector WorldDirection)
 {
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White,WorldLocation.ToString());
 	TargetCard->SetActorLocation(FMath::VInterpTo(TargetCard->GetActorLocation(), WorldLocation+WorldDirection*1250, 0.2, 2));
-}
-
-
-void AProject_CarDeerPlayerController::PlayCard()
-{
-	
-}
-
-void AProject_CarDeerPlayerController::ReturnCard()
-{
-	
 }
 
 void AProject_CarDeerPlayerController::DrawCard()

@@ -32,7 +32,9 @@ public:
 
 	bool IsInHand;
 
-	bool IsDrawed;
+	bool IsDrawed = true;
+	bool bSHouldReturn;
+	bool bShouldPlay;
 
 	FVector LookAtVector;
 	
@@ -44,5 +46,11 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetRotationToPlayer();
+
+	UFUNCTION(BlueprintCallable)
+	void Play();
+
+	UFUNCTION(BlueprintCallable)
+	void Return();
 
 };

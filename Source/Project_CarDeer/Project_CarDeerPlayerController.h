@@ -83,20 +83,11 @@ public:
 	void LeftMouseHold();
 
 	UFUNCTION(BlueprintCallable)
-	void GetTargetCard();
-
-	UFUNCTION(BlueprintCallable)
-	void PlayCard();
-
-	UFUNCTION(BlueprintCallable)
 	void DrawCard();
 	
 	UFUNCTION(BlueprintCallable)
 	void MoveCard(FVector WorldLocation, FVector WorldDirection);
 
-	UFUNCTION(BlueprintCallable)
-	void ReturnCard();
-	
 };
 
 

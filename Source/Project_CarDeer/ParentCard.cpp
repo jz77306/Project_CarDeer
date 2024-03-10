@@ -3,6 +3,7 @@
 
 #include "ParentCard.h"
 
+#include "PlayerPawn.h"
 #include "Project_CarDeerCharacter.h"
 #include "BehaviorTree/BehaviorTreeTypes.h"
 #include "Camera/CameraComponent.h"
@@ -20,16 +21,30 @@ AParentCard::AParentCard()
 void AParentCard::BeginPlay()
 {
 	Super::BeginPlay();
+	IsDrawed = true;
+	
+	//测试用，设置手牌位置，后面重构
+	//PositionInHand = this->GetActorLocation();
+	PositionInHand = FVector(780, 1460, 110);
 }
 
 // Called every frame
 void AParentCard::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+
 	if(IsDrawed)
 	{
 		SetRotationToPlayer();
+	}
+
+	if(bShouldPlay)
+	{
+		Play();
+	}
+	else if(bSHouldReturn)
+	{
+		Return();
 	}
 	
 }
@@ -41,10 +56,24 @@ void AParentCard::BindController()
 
 void AParentCard::SetRotationToPlayer()
 {
-	AProject_CarDeerCharacter* PlayerPawn = Cast<AProject_CarDeerCharacter>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
-	FVector PlayerLocation = PlayerPawn->GetTopDownCameraComponent()->GetComponentLocation();
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), *UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->GetName());
+	APlayerPawn* PlayerPawn = Cast<APlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	FVector PlayerLocation = PlayerPawn->TopDownCameraComponent->GetComponentLocation();
 	LookAtVector = this->GetActorLocation()-PlayerLocation;
 	this->TargetRotation = LookAtVector.Rotation();
+	this->SetActorRotation(FMath::RInterpTo(this->GetActorRotation(), TargetRotation, 0.2,2));
 }
+
+void AParentCard::Play()
+{
+	
+}
+
+void AParentCard::Return()
+{
+	this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), PositionInHand, 0.2, 2));
+}
+
+
 
 
