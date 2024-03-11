@@ -27,9 +27,15 @@ public:
 	
 //Customed Properties&Functions
 public:
+	
+	//这个要换成卡牌的枚举类型或者写到蓝图里
 	UPROPERTY(BlueprintReadWrite)
 	TArray<AParentCard*> CardsInStack;
 
 	UPROPERTY(BlueprintReadWrite)
 	int MaxCardNum;
+
+public:
+	UFUNCTION(BlueprintCallable)
+	AParentCard* Draw();
 };

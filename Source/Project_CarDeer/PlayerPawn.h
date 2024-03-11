@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ParentCard.h"
 #include "GameFramework/Pawn.h"
 #include "PlayerPawn.generated.h"
 
@@ -34,6 +35,19 @@ public:
 	/** Camera boom positioning the camera above the character */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
+	
+	UPROPERTY(BlueprintReadWrite)
+	int NumOfCardsInHAnd;
+
+	UPROPERTY(BlueprintReadWrite)
+	TArray<AParentCard*> ArrCardInHand;
+
+	UPROPERTY(BlueprintReadWrite)
+	int Mana;
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void ReorgnizeCards(int NumOfCard);
 	
 
 };

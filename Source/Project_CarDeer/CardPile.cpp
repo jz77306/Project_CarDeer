@@ -3,6 +3,8 @@
 
 #include "CardPile.h"
 
+#include "Tasks/GameplayTask_SpawnActor.h"
+
 // Sets default values
 ACardPile::ACardPile()
 {
@@ -23,5 +25,17 @@ void ACardPile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+AParentCard* ACardPile::Draw()
+{
+	/*
+	int CardIndex = FMath::RandRange(0, CardsInStack.Num()-1);
+	AParentCard* SelectedCard = CardsInStack[CardIndex];
+	CardsInStack.Remove(SelectedCard);
+	return SelectedCard;
+	*/
+	UWorld::SpawnActor<AParentCard>();
+	
 }
 

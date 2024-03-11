@@ -27,14 +27,20 @@ public:
 	//
 public:
 
+	UPROPERTY(BlueprintReadWrite, Category="BasicAttributes")
+	int Cost;
+	
 	UPROPERTY(BlueprintReadWrite)
 	FVector PositionInHand;
 
 	bool IsInHand;
+	
 
 	bool IsDrawed = true;
 	bool bSHouldReturn;
 	bool bShouldPlay;
+
+	bool bIsInDeployZone = false;
 
 	FVector LookAtVector;
 	

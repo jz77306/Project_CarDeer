@@ -17,14 +17,14 @@ APlayerPawn::APlayerPawn()
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->SetUsingAbsoluteRotation(true); // Don't want arm to rotate when character does
 	CameraBoom->TargetArmLength = 1600.f;
-	CameraBoom->SetRelativeRotation(FRotator(-55.f, 0.f, 0.f));
+	CameraBoom->SetRelativeRotation(FRotator(-75.f, 0.f, 0.f));
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
 	// Create a camera...
 	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
 	TopDownCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
-	TopDownCameraComponent->SetFieldOfView(90.0);
+	TopDownCameraComponent->SetFieldOfView(115.0);
 
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
@@ -52,5 +52,18 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void APlayerPawn::ReorgnizeCards(int NumOfCard)
+{
+	if(NumOfCard == 1)
+	{
+		FVector PositionInHand = FVector(450, 1600, 100);
+		ArrCardInHand[0]->SetActorLocation(PositionInHand);
+	}
+	if(NumOfCard == 2)
+	{
+		
+	}
 }
 

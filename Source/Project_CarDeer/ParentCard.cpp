@@ -4,8 +4,6 @@
 #include "ParentCard.h"
 
 #include "PlayerPawn.h"
-#include "Project_CarDeerCharacter.h"
-#include "BehaviorTree/BehaviorTreeTypes.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -25,7 +23,7 @@ void AParentCard::BeginPlay()
 	
 	//测试用，设置手牌位置，后面重构
 	//PositionInHand = this->GetActorLocation();
-	PositionInHand = FVector(780, 1460, 110);
+	PositionInHand = FVector(450, 1600, 100);
 }
 
 // Called every frame

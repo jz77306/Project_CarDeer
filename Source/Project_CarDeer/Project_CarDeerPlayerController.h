@@ -56,6 +56,9 @@ public:
 	ACarDeerHUD* BindHUD;
 
 	UPROPERTY(BlueprintReadWrite)
+	APlayerPawn* BindPlayer;
+	
+	UPROPERTY(BlueprintReadWrite)
 	TArray<AParentCard*> CardInHandArray;
 
 	UPROPERTY(BlueprintReadWrite)
@@ -67,8 +70,7 @@ public:
 	bool IsLeftMouseDown;
 
 	bool HaveCardInHand;
-
-	bool IsCardInDeployZone = false;
+	bool HaveDrawCard;
 
 public:
 	virtual void BeginPlay() override;
