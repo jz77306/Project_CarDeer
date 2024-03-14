@@ -37,10 +37,13 @@ public:
 	class USpringArmComponent* CameraBoom;
 	
 	UPROPERTY(BlueprintReadWrite)
-	int NumOfCardsInHAnd;
+	int NumOfCardsInHAnd = 0;
 
 	UPROPERTY(BlueprintReadWrite)
 	TArray<AParentCard*> ArrCardInHand;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bNoSpaceInHand = false;
 
 	UPROPERTY(BlueprintReadWrite)
 	int Mana;

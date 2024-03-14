@@ -32,13 +32,18 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite)
 	FVector PositionInHand;
+	
+	UPROPERTY(BluePrintReadWrite)
+	int CardID;
 
 	bool IsInHand;
-	
 
 	bool IsDrawed = true;
 	bool bSHouldReturn;
 	bool bShouldPlay;
+
+	UPROPERTY(BLueprintReadWrite)
+	bool bSHouldBurn;
 
 	bool bIsInDeployZone = false;
 

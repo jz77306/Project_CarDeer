@@ -36,6 +36,5 @@ public:
 	int MaxCardNum;
 
 public:
-	UFUNCTION(BlueprintCallable)
-	AParentCard* Draw();
+
 };

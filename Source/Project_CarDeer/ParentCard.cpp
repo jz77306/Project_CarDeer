@@ -58,8 +58,9 @@ void AParentCard::SetRotationToPlayer()
 	APlayerPawn* PlayerPawn = Cast<APlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	FVector PlayerLocation = PlayerPawn->TopDownCameraComponent->GetComponentLocation();
 	LookAtVector = this->GetActorLocation()-PlayerLocation;
-	this->TargetRotation = LookAtVector.Rotation();
-	this->SetActorRotation(FMath::RInterpTo(this->GetActorRotation(), TargetRotation, 0.2,2));
+	LookAtVector.Z = 120;
+	TargetRotation = LookAtVector.Rotation();
+	this->SetActorRotation(FMath::RInterpTo(this->GetActorRotation(), TargetRotation, 0.2,0.5));
 }
 
 void AParentCard::Play()

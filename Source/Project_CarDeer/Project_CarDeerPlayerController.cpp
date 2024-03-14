@@ -53,10 +53,9 @@ void AProject_CarDeerPlayerController::PlayerTick(float DeltaTime)
 
 	if(IsLeftMouseDown)
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White,TEXT("LMouseHold"));
 		LeftMouseHold();
 	}
-	
+
 }
 
 void AProject_CarDeerPlayerController::SetupInputComponent()
@@ -120,7 +119,6 @@ void AProject_CarDeerPlayerController::BeginPlay()
 	Super::BeginPlay();
 	//Bind Customed HUD
 	BindHUD = Cast<ACarDeerHUD>(GetHUD());
-	BindPlayer = Cast<APlayerPawn>(GetLocalPlayer());
 }
 
 void AProject_CarDeerPlayerController::LeftMousePress()
@@ -145,10 +143,8 @@ void AProject_CarDeerPlayerController::LeftMousePress()
 		}
 		if(!HaveDrawCard)
 		{
-			DrawCard();
-			HaveDrawCard = true;
+			bHitCardPile = true;
 		}
-	
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,TEXT("Left Mouse Down"));
 }
@@ -161,9 +157,7 @@ void AProject_CarDeerPlayerController::LeftMouseRelease()
 		{
 			TargetCard->bShouldPlay = true;
 			HaveCardInHand = false;
-			BindPlayer->ArrCardInHand.Remove(TargetCard);
-			BindPlayer->NumOfCardsInHAnd -= 1;
-			BindPlayer->ReorgnizeCards(BindPlayer->NumOfCardsInHAnd);
+			bCardPlayed = true;
 		}
 		else
 		{
@@ -179,19 +173,15 @@ void AProject_CarDeerPlayerController::LeftMouseHold()
 {
 	if(HaveCardInHand)
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White,TEXT("ShouldMoveCard"));
 		FVector WorldLocation;
 		FVector WorldDirection;
 		DeprojectMousePositionToWorld(WorldLocation, WorldDirection);
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White,WorldLocation.ToString());
 		MoveCard(WorldLocation, WorldDirection);
-		//TargetCard->SetActorLocation(FMath::VInterpTo(TargetCard->GetActorLocation(), WorldLocation+WorldDirection*1200, 0.2, 2));
 	}
 }
 
 void AProject_CarDeerPlayerController::MoveCard(FVector WorldLocation, FVector WorldDirection)
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,WorldLocation.ToString());
 	TargetCard->SetActorLocation(FMath::VInterpTo(TargetCard->GetActorLocation(), WorldLocation+WorldDirection*1250, 0.2, 2));
 	float ZVecComp = TargetCard->GetActorLocation().Z;
 	if(ZVecComp >400.0f)
@@ -206,13 +196,5 @@ void AProject_CarDeerPlayerController::MoveCard(FVector WorldLocation, FVector W
 	}
 }
 
-void AProject_CarDeerPlayerController::DrawCard()
-{	
-	AParentCard* NewCard = TargetCardPile->Draw();
-	BindPlayer->ArrCardInHand.Add(NewCard);
-	BindPlayer->NumOfCardsInHAnd+=1;
-	BindPlayer->ReorgnizeCards(BindPlayer->NumOfCardsInHAnd);
-	
-}
 
 

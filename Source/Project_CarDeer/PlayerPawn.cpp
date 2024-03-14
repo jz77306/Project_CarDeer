@@ -4,6 +4,7 @@
 #include "PlayerPawn.h"
 
 #include "Camera/CameraComponent.h"
+#include "DSP/Chorus.h"
 #include "GameFramework/SpringArmComponent.h"
 
 // Sets default values
@@ -17,14 +18,14 @@ APlayerPawn::APlayerPawn()
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->SetUsingAbsoluteRotation(true); // Don't want arm to rotate when character does
 	CameraBoom->TargetArmLength = 1600.f;
-	CameraBoom->SetRelativeRotation(FRotator(-75.f, 0.f, 0.f));
+	CameraBoom->SetRelativeRotation(FRotator(-60.f, 0.f, 0.f));
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
 	// Create a camera...
 	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
 	TopDownCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
-	TopDownCameraComponent->SetFieldOfView(115.0);
+	TopDownCameraComponent->SetFieldOfView(105.0);
 
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
@@ -44,6 +45,7 @@ void APlayerPawn::BeginPlay()
 void APlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	ReorgnizeCards(NumOfCardsInHAnd);
 
 }
 
@@ -56,14 +58,60 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void APlayerPawn::ReorgnizeCards(int NumOfCard)
 {
+	FVector CenterPosition = FVector(450, 1600, 100);
+	FVector GapUnit = FVector(0, 40, 0);
+	FVector AdjustVec = FVector(3, 0, 3);
+	if(NumOfCard == 0)
+	{
+		return;
+	}
 	if(NumOfCard == 1)
 	{
-		FVector PositionInHand = FVector(450, 1600, 100);
-		ArrCardInHand[0]->SetActorLocation(PositionInHand);
+		ArrCardInHand[0]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[0]->GetActorLocation(), CenterPosition, 0.2, 0.2));
+		ArrCardInHand[0]->PositionInHand = CenterPosition;
 	}
+	
 	if(NumOfCard == 2)
 	{
-		
+		ArrCardInHand[0]->PositionInHand = CenterPosition+GapUnit;
+		ArrCardInHand[0]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[0]->GetActorLocation(), ArrCardInHand[0]->PositionInHand, 0.2, 0.2));
+		ArrCardInHand[1]->PositionInHand = CenterPosition-GapUnit;
+		ArrCardInHand[1]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[1]->GetActorLocation(), ArrCardInHand[1]->PositionInHand, 0.2, 0.2));
+	}
+	
+	if(NumOfCard >= 3 && NumOfCard <= 8)
+	{
+		if(NumOfCard%2 == 1)
+		{
+			ArrCardInHand[0]->PositionInHand = CenterPosition;
+			ArrCardInHand[0]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[0]->GetActorLocation(), ArrCardInHand[0]->PositionInHand, 0.2, 0.2));
+			ArrCardInHand[1]->PositionInHand = CenterPosition-2*GapUnit;
+			ArrCardInHand[1]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[1]->GetActorLocation(), ArrCardInHand[1]->PositionInHand, 0.2, 0.2));
+			
+			for(int iter = 2;iter<NumOfCard;iter++)
+			{
+					ArrCardInHand[iter]->PositionInHand = ArrCardInHand[iter-2]->PositionInHand-4*GapUnit*(iter%2-0.5)-AdjustVec;
+					ArrCardInHand[iter]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[iter]->GetActorLocation(), ArrCardInHand[iter]->PositionInHand, 0.2, 0.2));
+			}
+		}
+		else
+		{
+			ArrCardInHand[0]->PositionInHand = CenterPosition+GapUnit;
+			ArrCardInHand[0]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[0]->GetActorLocation(), ArrCardInHand[0]->PositionInHand, 0.2, 0.2));
+			ArrCardInHand[1]->PositionInHand = CenterPosition-GapUnit;
+			ArrCardInHand[1]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[1]->GetActorLocation(), ArrCardInHand[1]->PositionInHand, 0.2, 0.2));
+
+			for(int iter = 2;iter<NumOfCard;iter++)
+			{
+				ArrCardInHand[iter]->PositionInHand = ArrCardInHand[iter-2]->PositionInHand-4*GapUnit*(iter%2-0.5)-AdjustVec;
+				ArrCardInHand[iter]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[iter]->GetActorLocation(), ArrCardInHand[iter]->PositionInHand, 0.2, 0.2));
+			}
+		}
+	}
+
+	else
+	{
+		bNoSpaceInHand = true;
 	}
 }
 

@@ -6,6 +6,7 @@
 #include "CarDeerHUD.h"
 #include "CardPile.h"
 #include "ParentCard.h"
+#include "PlayerPawn.h"
 #include "Templates/SubclassOf.h"
 #include "GameFramework/PlayerController.h"
 #include "Project_CarDeerPlayerController.generated.h"
@@ -54,9 +55,6 @@ private:
 public:
 	UPROPERTY(BlueprintReadWrite)
 	ACarDeerHUD* BindHUD;
-
-	UPROPERTY(BlueprintReadWrite)
-	APlayerPawn* BindPlayer;
 	
 	UPROPERTY(BlueprintReadWrite)
 	TArray<AParentCard*> CardInHandArray;
@@ -65,12 +63,20 @@ public:
 	AParentCard* TargetCard;
 
 	UPROPERTY(BlueprintReadWrite)
-	ACardPile* TargetCardPile;
+	ACardPile* TargetCardPile = nullptr;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bHitCardPile;
+	
+	UPROPERTY(BlueprintReadWrite)
+	bool bCardPlayed;
 
 	bool IsLeftMouseDown;
 
-	bool HaveCardInHand;
-	bool HaveDrawCard;
+	bool HaveCardInHand = false;
+	
+	UPROPERTY(BlueprintReadWrite)
+	bool HaveDrawCard = false;
 
 public:
 	virtual void BeginPlay() override;
@@ -84,9 +90,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LeftMouseHold();
 
-	UFUNCTION(BlueprintCallable)
-	void DrawCard();
-	
 	UFUNCTION(BlueprintCallable)
 	void MoveCard(FVector WorldLocation, FVector WorldDirection);
 
