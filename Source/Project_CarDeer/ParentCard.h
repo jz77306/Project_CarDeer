@@ -43,7 +43,7 @@ public:
 	bool bShouldPlay;
 
 	UPROPERTY(BLueprintReadWrite)
-	bool bSHouldBurn;
+	bool bSHouldBurn = false;
 
 	bool bIsInDeployZone = false;
 
@@ -64,4 +64,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Return();
 
+	UFUNCTION(BlueprintCallable)
+	void BurnSelf();
+
 };
+
+

@@ -51,6 +51,8 @@ public:
 public:
 	UFUNCTION(BlueprintCallable)
 	void ReorgnizeCards(int NumOfCard);
-	
+
+	UFUNCTION(BlueprintCallable)
+	bool AddCard(AParentCard* NewCard);
 
 };
