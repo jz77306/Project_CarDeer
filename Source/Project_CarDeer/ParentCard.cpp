@@ -3,6 +3,7 @@
 
 #include "ParentCard.h"
 
+#include "NiagaraComponentPool.h"
 #include "PlayerPawn.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -35,16 +36,21 @@ void AParentCard::Tick(float DeltaTime)
 	{
 		SetRotationToPlayer();
 	}
-
-	if(bShouldPlay)
+	if(bSHouldBurn)
 	{
-		Play();
+		BurnSelf();
 	}
-	else if(bSHouldReturn)
+	else
 	{
-		Return();
+		if(bShouldPlay)
+		{
+			Play();
+		}
+		else if(bSHouldReturn)
+		{
+			Return();
+		}
 	}
-	
 }
 
 void AParentCard::BindController()
@@ -57,8 +63,11 @@ void AParentCard::SetRotationToPlayer()
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->GetName());
 	APlayerPawn* PlayerPawn = Cast<APlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	FVector PlayerLocation = PlayerPawn->TopDownCameraComponent->GetComponentLocation();
+
+	PlayerLocation.Y = this->GetActorLocation().Y;
+	
 	LookAtVector = this->GetActorLocation()-PlayerLocation;
-	LookAtVector.Z = 120;
+	
 	TargetRotation = LookAtVector.Rotation();
 	this->SetActorRotation(FMath::RInterpTo(this->GetActorRotation(), TargetRotation, 0.2,0.5));
 }
@@ -73,6 +82,9 @@ void AParentCard::Return()
 	this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), PositionInHand, 0.2, 2));
 }
 
-
+void AParentCard::BurnSelf()
+{
+	this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), FVector(800, 1600, 200), 0.2, 0.8));
+}
 
 
