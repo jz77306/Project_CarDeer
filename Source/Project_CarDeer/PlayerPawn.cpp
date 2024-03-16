@@ -115,17 +115,3 @@ void APlayerPawn::ReorgnizeCards(int NumOfCard)
 	}
 }
 
-bool APlayerPawn::AddCard(AParentCard* NewCard)
-{
-	if(NumOfCardsInHAnd < 8)
-	{
-		ArrCardInHand.Add(NewCard);
-		NumOfCardsInHAnd += 1;
-	}
-	else if(NumOfCardsInHAnd >= 8)
-	{
-		NewCard->bSHouldBurn= true;
-	}
-	return NewCard->bSHouldBurn;
-}
-
