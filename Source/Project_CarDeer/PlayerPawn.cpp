@@ -2,7 +2,6 @@
 
 
 #include "PlayerPawn.h"
-
 #include "Camera/CameraComponent.h"
 #include "DSP/Chorus.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -17,15 +16,15 @@ APlayerPawn::APlayerPawn()
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->SetUsingAbsoluteRotation(true); // Don't want arm to rotate when character does
-	CameraBoom->TargetArmLength = 1600.f;
-	CameraBoom->SetRelativeRotation(FRotator(-60.f, 0.f, 0.f));
+	CameraBoom->TargetArmLength = 1100.f;
+	CameraBoom->SetRelativeRotation(FRotator(-55.f, 0.f, 0.f));
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
 	// Create a camera...
 	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
 	TopDownCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
-	TopDownCameraComponent->SetFieldOfView(105.0);
+	TopDownCameraComponent->SetFieldOfView(95.0);
 
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
@@ -58,9 +57,9 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void APlayerPawn::ReorgnizeCards(int NumOfCard)
 {
-	FVector CenterPosition = FVector(450, 1600, 100);
-	FVector GapUnit = FVector(0, 40, 0);
-	FVector AdjustVec = FVector(3, 0, 3);
+	FVector CenterPosition = FVector(350, 1800, 100);
+	FVector GapUnit = FVector(0, 64, 0);
+	FVector AdjustVec = FVector(0, 0, 0);
 	if(NumOfCard == 0)
 	{
 		return;
@@ -79,7 +78,7 @@ void APlayerPawn::ReorgnizeCards(int NumOfCard)
 		ArrCardInHand[1]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[1]->GetActorLocation(), ArrCardInHand[1]->PositionInHand, 0.2, 0.2));
 	}
 	
-	if(NumOfCard >= 3 && NumOfCard <= 8)
+	if(NumOfCard >= 3 && NumOfCard <= 6)
 	{
 		if(NumOfCard%2 == 1)
 		{
@@ -117,12 +116,12 @@ void APlayerPawn::ReorgnizeCards(int NumOfCard)
 
 bool APlayerPawn::AddCard(AParentCard* NewCard)
 {
-	if(NumOfCardsInHAnd < 8)
+	if(NumOfCardsInHAnd < 6)
 	{
 		ArrCardInHand.Add(NewCard);
 		NumOfCardsInHAnd += 1;
 	}
-	else if(NumOfCardsInHAnd >= 8)
+	else if(NumOfCardsInHAnd >= 6)
 	{
 		NewCard->bSHouldBurn= true;
 	}
