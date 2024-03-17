@@ -182,9 +182,9 @@ void AProject_CarDeerPlayerController::LeftMouseHold()
 
 void AProject_CarDeerPlayerController::MoveCard(FVector WorldLocation, FVector WorldDirection)
 {
-	TargetCard->SetActorLocation(FMath::VInterpTo(TargetCard->GetActorLocation(), WorldLocation+WorldDirection*700, 0.2, 1.2));
+	TargetCard->SetActorLocation(FMath::VInterpTo(TargetCard->GetActorLocation(), WorldLocation+WorldDirection*1250, 0.2, 1.2));
 	float ZVecComp = TargetCard->GetActorLocation().Z;
-	if(ZVecComp >360.0f)
+	if(ZVecComp >400.0f)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TEXT("true"));
 		TargetCard->bIsInDeployZone = true;
