@@ -23,4 +23,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+public:
+	UPROPERTY(BlueprintReadWrite)
+	bool bPlayerSteppingOn;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bEnemySteppingOn;
+
+	UPROPERTY(BlueprintReadWrite)
+	AActor* ActorSteppedOn;
+	
 };
