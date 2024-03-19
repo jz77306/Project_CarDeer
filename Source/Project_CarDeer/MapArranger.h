@@ -36,7 +36,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	// 棋盘的二维数组
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	//UPROPERTY(BlueprintReadWrite)
 	TArray<TArray<AMapUnit*>> ChessboardGrid;
 
 	// 棋盘的大小
