@@ -24,11 +24,11 @@ public:
 	//void PlaceChessPiece(AChessPiece* ChessPiece, int32 Row, int32 Column);
 
 	// 查询格子的位置，返回FVector
-	UFUNCTION(BlueprintCallable);
+	UFUNCTION(BlueprintCallable)
 	FVector FindMapUnitLoc(int32 row, int32 col);
 
 	// 查询格子的实例：返回AMapUnit
-	UFUNCTION(BlueprintCallable);
+	UFUNCTION(BlueprintCallable)
 	AMapUnit* GetMapUnitInstance(int32 row, int32 col);
 
 protected:
@@ -36,7 +36,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	// 棋盘的二维数组
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	//UPROPERTY(BlueprintReadWrite)
 	TArray<TArray<AMapUnit*>> ChessboardGrid;
 
 	// 棋盘的大小
