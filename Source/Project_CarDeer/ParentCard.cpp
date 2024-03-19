@@ -34,7 +34,7 @@ void AParentCard::Tick(float DeltaTime)
 
 	if(IsDrawed)
 	{
-		SetRotationToPlayer();
+		// SetRotationToPlayer();
 	}
 	if(bSHouldBurn)
 	{
@@ -80,7 +80,7 @@ void AParentCard::Return()
 	if(bIsReleaseed)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TEXT("true"));
-		this->SetActorRotation(FMath::RInterpTo(this->GetActorRotation(), FRotator(270,0,0), 0.2, 2));
+		this->SetActorRotation(FMath::RInterpTo(this->GetActorRotation(), FRotator(270,0,180), 0.2, 2));
 		this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), PositionInHand, 0.2, 2));
 	}
 }

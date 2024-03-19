@@ -199,7 +199,7 @@ void AProject_CarDeerPlayerController::MoveCard(FVector WorldLocation, FVector W
 	FRotator NowRotator;
 	TargetRotator.Pitch = 270;
 	TargetRotator.Yaw = 0;
-	TargetRotator.Roll = 0;
+	TargetRotator.Roll = 180;
 	NowRotator = TargetRotator;
 	NowRotator.Roll = TargetRotator.Roll + MoveLocation.Y*0.3;
 	NowRotator.Pitch = TargetRotator.Pitch + MoveLocation.X*0.8;
