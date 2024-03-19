@@ -50,7 +50,7 @@ AMapUnit* AEnemyPawn::StepOnTrace()
 	return SteppedOnUnit;
 }
 
-void AEnemyPawn::TakeDamage(int DamageAmount)
+void AEnemyPawn::TakeDamageFromPlayer(int DamageAmount)
 {
 	Blood -= DamageAmount;
 	if(Blood <= 0)
@@ -63,4 +63,5 @@ void AEnemyPawn::Death()
 {
 	
 }
+
 
