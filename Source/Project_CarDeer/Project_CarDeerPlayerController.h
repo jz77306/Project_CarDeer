@@ -75,6 +75,9 @@ public:
 
 	bool HaveCardInHand = false;
 	
+	UPROPERTY(BlueprintReadWrite)
+	bool IsPlayerRound = false;
+	
 	FVector3d LastLocation;
     	
 	FRotator LastRotation;
