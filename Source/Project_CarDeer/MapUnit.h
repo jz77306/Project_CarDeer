@@ -15,9 +15,24 @@ public:
 	// Sets default values for this actor's properties
 	AMapUnit();
 
+	// 设置格子的行列索引
+	void SetIndices(int32 NewRowIndex, int32 NewColumnIndex);
+
+	// 获取格子的行索引
+	int32 GetRowIndex() const { return RowIndex; }
+
+	// 获取格子的列索引
+	int32 GetColumnIndex() const { return ColumnIndex; }
+
+protected:
+	// 该格子的行列索引
+	int32 RowIndex;
+	int32 ColumnIndex;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
 
 public:	
 	// Called every frame

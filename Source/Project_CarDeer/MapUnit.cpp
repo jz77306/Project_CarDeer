@@ -11,6 +11,13 @@ AMapUnit::AMapUnit()
 
 }
 
+void AMapUnit::SetIndices(int32 NewRowIndex, int32 NewColumnIndex)
+{
+	// 设置格子的行列索引
+	RowIndex = NewRowIndex;
+	ColumnIndex = NewColumnIndex;
+}
+
 // Called when the game starts or when spawned
 void AMapUnit::BeginPlay()
 {
