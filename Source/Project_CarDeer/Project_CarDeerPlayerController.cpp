@@ -166,6 +166,7 @@ void AProject_CarDeerPlayerController::LeftMouseRelease()
 		{
 			TargetCard->bSHouldReturn = true;
 			HaveCardInHand = false;
+			bCardPlayed = false;
 		}
 		TargetCard = nullptr;
 	}

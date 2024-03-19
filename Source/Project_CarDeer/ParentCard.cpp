@@ -34,7 +34,7 @@ void AParentCard::Tick(float DeltaTime)
 
 	if(IsDrawed)
 	{
-		SetRotationToPlayer();
+		// SetRotationToPlayer();
 	}
 	if(bSHouldBurn)
 	{
