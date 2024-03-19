@@ -44,6 +44,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	APlayerChess* TargetPlayerChess;
 
+	UPROPERTY(BlueprintReadWrite)
+	AMapUnit* SteppedOnUnit = nullptr;
+
 public:
 	UFUNCTION(BlueprintCallable)
 	AMapUnit* StepOnTrace();
@@ -53,6 +56,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Death();
+
+	UFUNCTION(BlueprintCallable)
+	FVector FindNextLocation(FVector StartLocation);
 
 
 };

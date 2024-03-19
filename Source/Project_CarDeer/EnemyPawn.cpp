@@ -39,7 +39,6 @@ AMapUnit* AEnemyPawn::StepOnTrace()
 	FVector StartVec = this->GetActorLocation();
 	FVector EndVec = this->GetActorLocation()+FVector(0,0,-200);
 	FHitResult HitResult;
-	AMapUnit* SteppedOnUnit = nullptr;
 	bool bHaveHitRes = GetWorld()->LineTraceSingleByChannel(HitResult, StartVec, EndVec, ECC_Visibility);
 	if(bHaveHitRes)
 	{
@@ -62,6 +61,17 @@ void AEnemyPawn::TakeDamageFromPlayer(int DamageAmount)
 void AEnemyPawn::Death()
 {
 	
+}
+
+FVector AEnemyPawn::FindNextLocation(FVector StartLocation)
+{
+	FVector DestinationLoc = TargetPlayerChess->GetActorLocation();
+	FVector NextLocation = this->GetActorLocation();
+	if(StartLocation.X>DestinationLoc.X)
+	{
+		
+	}
+	return NextLocation;
 }
 
 

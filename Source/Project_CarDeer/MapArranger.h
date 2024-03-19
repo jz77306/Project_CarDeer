@@ -24,11 +24,11 @@ public:
 	//void PlaceChessPiece(AChessPiece* ChessPiece, int32 Row, int32 Column);
 
 	// 查询格子的位置，返回FVector
-	UFUNCTION(BlueprintCallable);
+	UFUNCTION(BlueprintCallable)
 	FVector FindMapUnitLoc(int32 row, int32 col);
 
 	// 查询格子的实例：返回AMapUnit
-	UFUNCTION(BlueprintCallable);
+	UFUNCTION(BlueprintCallable)
 	AMapUnit* GetMapUnitInstance(int32 row, int32 col);
 
 protected:
