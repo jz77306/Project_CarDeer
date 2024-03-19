@@ -134,6 +134,7 @@ void AProject_CarDeerPlayerController::LeftMousePress()
 		TargetCard->bShouldPlay = false;
 		TargetCard->bSHouldReturn = false;
 		HaveCardInHand = true;
+		TargetCard->bIsReleaseed = false;
 		TargetCard->SetActorRotation(FRotator(270,0,0));
 		LastLocation = TargetCard->GetActorLocation();
 		LastRotation = TargetCard->GetActorRotation();
@@ -149,6 +150,7 @@ void AProject_CarDeerPlayerController::LeftMousePress()
 			bHitCardPile = true;
 		}
 	}
+	
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,TEXT("Left Mouse Down"));
 }
 
@@ -168,6 +170,7 @@ void AProject_CarDeerPlayerController::LeftMouseRelease()
 			HaveCardInHand = false;
 			bCardPlayed = false;
 		}
+		TargetCard->bIsReleaseed = true;
 		TargetCard = nullptr;
 	}
 	IsLeftMouseDown = false;
@@ -187,8 +190,8 @@ void AProject_CarDeerPlayerController::LeftMouseHold()
 void AProject_CarDeerPlayerController::MoveCard(FVector WorldLocation, FVector WorldDirection)
 {
 	TargetCard->SetActorLocation(FMath::VInterpTo(TargetCard->GetActorLocation(), WorldLocation+WorldDirection*1250, 0.2, 1.2));
+
 	FVector3d MoveLocation = LastLocation - TargetCard->GetActorLocation();
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *MoveLocation.ToString());
 	LastLocation = TargetCard->GetActorLocation();
 	LastRotation = TargetCard->GetActorRotation();
 	LastRotation.Pitch = 270;
@@ -201,16 +204,16 @@ void AProject_CarDeerPlayerController::MoveCard(FVector WorldLocation, FVector W
 	NowRotator.Roll = TargetRotator.Roll + MoveLocation.Y*0.3;
 	NowRotator.Pitch = TargetRotator.Pitch + MoveLocation.X*0.8;
 	TargetCard->SetActorRotation(NowRotator);
-	
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *TargetCard->GetActorRotation().ToString());
 	float XVecComp = TargetCard->GetActorLocation().X;
 	if(XVecComp >900.0f)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TEXT("true"));
+		// GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TEXT("true"));
 		TargetCard->bIsInDeployZone = true;
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TEXT("false"));
+		// GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TEXT("false"));
 		TargetCard->bIsInDeployZone = false;
 	}
 }
