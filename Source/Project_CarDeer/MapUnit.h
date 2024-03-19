@@ -26,7 +26,9 @@ public:
 
 protected:
 	// 该格子的行列索引
+	UPROPERTY(BlueprintReadOnly)
 	int32 RowIndex;
+	UPROPERTY(BlueprintReadOnly)
 	int32 ColumnIndex;
 	
 protected:

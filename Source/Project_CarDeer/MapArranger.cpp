@@ -43,6 +43,20 @@ void AMapArranger::CreateChessboard(int32 Size)
 	}
 }
 
+FVector AMapArranger::FindMapUnitLoc(int32 row, int32 col)
+{
+	TArray<AMapUnit*> RowMapUnitInstance = ChessboardGrid[row];;
+	AMapUnit* ColMapUnitInstance = RowMapUnitInstance[col];
+	return ColMapUnitInstance->GetActorLocation();
+}
+
+AMapUnit* AMapArranger::GetMapUnitInstance(int32 row, int32 col)
+{
+	TArray<AMapUnit*> RowMapUnitInstance = ChessboardGrid[row];;
+	AMapUnit* ColMapUnitInstance = RowMapUnitInstance[col];
+	return ColMapUnitInstance;
+}
+
 // Called when the game starts or when spawned
 void AMapArranger::BeginPlay()
 {
