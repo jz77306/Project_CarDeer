@@ -77,7 +77,12 @@ void AParentCard::Play()
 
 void AParentCard::Return()
 {
-	this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), PositionInHand, 0.2, 2));
+	if(bIsReleaseed)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TEXT("true"));
+		this->SetActorRotation(FMath::RInterpTo(this->GetActorRotation(), FRotator(270,0,0), 0.2, 2));
+		this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), PositionInHand, 0.2, 2));
+	}
 }
 
 void AParentCard::BurnSelf()

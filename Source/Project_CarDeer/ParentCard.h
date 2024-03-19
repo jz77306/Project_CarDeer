@@ -47,6 +47,8 @@ public:
 
 	bool bIsInDeployZone = false;
 
+	bool bIsReleaseed = true;
+	
 	FVector LookAtVector;
 	
 	FRotator TargetRotation;
