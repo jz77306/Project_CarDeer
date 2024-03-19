@@ -34,7 +34,7 @@ void AParentCard::Tick(float DeltaTime)
 
 	if(IsDrawed)
 	{
-		// SetRotationToPlayer();
+		SetRotationToPlayer();
 	}
 	if(bSHouldBurn)
 	{
@@ -63,7 +63,7 @@ void AParentCard::SetRotationToPlayer()
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->GetName());
 	APlayerPawn* PlayerPawn = Cast<APlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	FVector PlayerLocation = PlayerPawn->TopDownCameraComponent->GetComponentLocation();
-	PlayerLocation.X -= 300;
+	PlayerLocation.X = this->GetActorLocation().X-50;
 	LookAtVector = this->GetActorLocation()-PlayerLocation;
 	LookAtVector.Y = 0;
 	TargetRotation = LookAtVector.Rotation();

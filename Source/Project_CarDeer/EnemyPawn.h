@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MapArranger.h"
 #include "MapUnit.h"
 #include "PlayerChess.h"
 #include "GameFramework/Pawn.h"
@@ -47,6 +48,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	AMapUnit* SteppedOnUnit = nullptr;
 
+	UPROPERTY(BlueprintReadWrite)
+	AMapArranger* MapArranger = nullptr;
+
 public:
 	UFUNCTION(BlueprintCallable)
 	AMapUnit* StepOnTrace();
@@ -60,5 +64,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FVector FindNextLocation(FVector StartLocation);
 
+	UFUNCTION(BlueprintCallable)
+	void MoveTo(FVector MoveToLocation);
 
 };

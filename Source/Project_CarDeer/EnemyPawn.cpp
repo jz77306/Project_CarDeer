@@ -3,6 +3,8 @@
 
 #include "EnemyPawn.h"
 
+#include "Net/Core/Connection/NetConnectionFaultRecoveryBase.h"
+
 // Sets default values
 AEnemyPawn::AEnemyPawn()
 {
@@ -15,7 +17,7 @@ AEnemyPawn::AEnemyPawn()
 void AEnemyPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	Destination = this->GetActorLocation();
 }
 
 // Called every frame
@@ -24,6 +26,7 @@ void AEnemyPawn::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	StepOnTrace();
+	MoveTo(Destination);
 
 }
 
@@ -67,11 +70,64 @@ FVector AEnemyPawn::FindNextLocation(FVector StartLocation)
 {
 	FVector DestinationLoc = TargetPlayerChess->GetActorLocation();
 	FVector NextLocation = this->GetActorLocation();
-	if(StartLocation.X>DestinationLoc.X)
+	int TargetRow, TargetColumn;
+	float Seed = FMath::FRand();
+	float XorYValve = FMath::FRand();
+	if(Seed<=0.7)
 	{
-		
+		if(StartLocation.X>DestinationLoc.X)
+		{
+			if(XorYValve<0.5)
+			{
+				TargetColumn = SteppedOnUnit->GetColumnIndex()-1;
+			}
+			else
+			{
+				if(StartLocation.Y > DestinationLoc.Y)
+				{
+					TargetRow = SteppedOnUnit->GetRowIndex()-1;
+				}
+				else
+				{
+					TargetRow = SteppedOnUnit->GetRowIndex()+1;
+				}
+			}
+
+		}
+		else
+		{
+			if(XorYValve<0.5)
+			{
+				TargetColumn = SteppedOnUnit->GetColumnIndex()+1;
+			}
+			else
+			{
+				if(StartLocation.Y > DestinationLoc.Y)
+				{
+					TargetRow = SteppedOnUnit->GetRowIndex()-1;
+				}
+				else
+				{
+					TargetRow = SteppedOnUnit->GetRowIndex()+1;
+				}
+			}
+
+		}
 	}
+	else
+	{
+		TargetColumn = SteppedOnUnit->GetColumnIndex()+ (1*(Seed-0.85)/abs(Seed-0.85));
+		TargetRow = SteppedOnUnit->GetRowIndex()+1*(Seed-0.85)/abs(Seed-0.85);
+	}
+	NextLocation = MapArranger->GetMapUnitInstance(TargetRow, TargetColumn)->GetActorLocation();
+	NextLocation.Z = this->GetActorLocation().Z;
 	return NextLocation;
+	
+}
+
+void AEnemyPawn::MoveTo(FVector MoveToLocation)
+{
+	this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), MoveToLocation, 0.2,0.5));
 }
 
 
