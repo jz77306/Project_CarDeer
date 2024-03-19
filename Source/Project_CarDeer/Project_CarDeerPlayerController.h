@@ -75,6 +75,10 @@ public:
 
 	bool HaveCardInHand = false;
 	
+	FVector3d LastLocation;
+    	
+	FRotator LastRotation;
+	
 	UPROPERTY(BlueprintReadWrite)
 	bool HaveDrawCard = false;
 

@@ -134,6 +134,9 @@ void AProject_CarDeerPlayerController::LeftMousePress()
 		TargetCard->bShouldPlay = false;
 		TargetCard->bSHouldReturn = false;
 		HaveCardInHand = true;
+		TargetCard->SetActorRotation(FRotator(270,0,0));
+		LastLocation = TargetCard->GetActorLocation();
+		LastRotation = TargetCard->GetActorRotation();
 	}
 	else if(Cast<ACardPile>(HitResult.GetActor()))
 	{
@@ -183,8 +186,23 @@ void AProject_CarDeerPlayerController::LeftMouseHold()
 void AProject_CarDeerPlayerController::MoveCard(FVector WorldLocation, FVector WorldDirection)
 {
 	TargetCard->SetActorLocation(FMath::VInterpTo(TargetCard->GetActorLocation(), WorldLocation+WorldDirection*1250, 0.2, 1.2));
-	float ZVecComp = TargetCard->GetActorLocation().Z;
-	if(ZVecComp >400.0f)
+	FVector3d MoveLocation = LastLocation - TargetCard->GetActorLocation();
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *MoveLocation.ToString());
+	LastLocation = TargetCard->GetActorLocation();
+	LastRotation = TargetCard->GetActorRotation();
+	LastRotation.Pitch = 270;
+	FRotator TargetRotator;
+	FRotator NowRotator;
+	TargetRotator.Pitch = 270;
+	TargetRotator.Yaw = 0;
+	TargetRotator.Roll = 0;
+	NowRotator = TargetRotator;
+	NowRotator.Yaw = TargetRotator.Yaw + MoveLocation.Y*0.3;
+	NowRotator.Pitch = TargetRotator.Pitch + MoveLocation.X*0.8;
+	TargetCard->SetActorRotation(NowRotator);
+	
+	float XVecComp = TargetCard->GetActorLocation().X;
+	if(XVecComp >900.0f)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TEXT("true"));
 		TargetCard->bIsInDeployZone = true;

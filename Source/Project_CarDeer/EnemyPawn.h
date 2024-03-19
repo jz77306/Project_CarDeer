@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "MapUnit.h"
+#include "PlayerChess.h"
 #include "GameFramework/Pawn.h"
 #include "EnemyPawn.generated.h"
 
@@ -34,14 +35,24 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool bIsDead;
 
+	UPROPERTY(BlueprintReadWrite)
+	bool bReadyToAction;
+
+	UPROPERTY(BlueprintReadWrite)
+	FVector Destination;
+	
+	UPROPERTY(BlueprintReadWrite)
+	APlayerChess* TargetPlayerChess;
+
 public:
 	UFUNCTION(BlueprintCallable)
 	AMapUnit* StepOnTrace();
 
 	UFUNCTION(BlueprintCallable)
-	void TakeDamage(int DamageAmount);
+	void TakeDamageFromPlayer(int DamageAmount);
 
 	UFUNCTION(BlueprintCallable)
 	void Death();
+
 
 };
