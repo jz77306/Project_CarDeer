@@ -71,9 +71,8 @@ void AEnemyPawn::Death()
 
 FVector2D AEnemyPawn::FindNextLocation(FVector StartLocation)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(SteppedOnUnit->GetRowIndex()));
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(SteppedOnUnit->GetColumnIndex()));
 	FVector DestinationLoc = TargetPlayerChess->GetActorLocation();
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TargetPlayerChess->GetActorLocation().ToString());
 	FVector2D NextLocation = FVector2D(0, 0);
 	int TargetRow = -1, TargetColumn = -1;
 	TargetRow = SteppedOnUnit->GetRowIndex();
@@ -81,23 +80,25 @@ FVector2D AEnemyPawn::FindNextLocation(FVector StartLocation)
 	
 	float Seed = FMath::FRand();
 	float XorYValve = FMath::FRand();
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FVector2D(Seed, XorYValve).ToString());
 	if(Seed<=0.8)
 	{
 		if(StartLocation.X>DestinationLoc.X)
 		{
 			if(XorYValve<0.5)
 			{
-				TargetColumn = SteppedOnUnit->GetRowIndex()+1;
+				TargetRow = SteppedOnUnit->GetRowIndex()+1;
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(TargetColumn));
 			}
 			else
 			{
 				if(StartLocation.Y > DestinationLoc.Y)
 				{
-					TargetRow = SteppedOnUnit->GetColumnIndex()-1;
+					TargetColumn = SteppedOnUnit->GetColumnIndex()-1;
 				}
 				else
 				{
-					TargetRow = SteppedOnUnit->GetColumnIndex()+1;
+					TargetColumn = SteppedOnUnit->GetColumnIndex()+1;
 				}
 			}
 
@@ -106,17 +107,17 @@ FVector2D AEnemyPawn::FindNextLocation(FVector StartLocation)
 		{
 			if(XorYValve<0.5)
 			{
-				TargetColumn = SteppedOnUnit->GetRowIndex()-1;
+				TargetRow = SteppedOnUnit->GetRowIndex()-1;
 			}
 			else
 			{
 				if(StartLocation.Y > DestinationLoc.Y)
 				{
-					TargetRow = SteppedOnUnit->GetColumnIndex()-1;
+					TargetColumn = SteppedOnUnit->GetColumnIndex()-1;
 				}
 				else
 				{
-					TargetRow = SteppedOnUnit->GetColumnIndex()+1;
+					TargetColumn = SteppedOnUnit->GetColumnIndex()+1;
 				}
 			}
 
@@ -127,12 +128,11 @@ FVector2D AEnemyPawn::FindNextLocation(FVector StartLocation)
 		if(XorYValve<0.5) TargetRow = SteppedOnUnit->GetColumnIndex()+ (1*(Seed-0.9)/abs(Seed-0.9));
 		else TargetColumn = SteppedOnUnit->GetRowIndex()+1*(Seed-0.9)/abs(Seed-0.9);
 	}
+	
 	if(TargetRow >= 0 && TargetRow < 5 && TargetColumn >= 0 && TargetColumn < 5 && abs(SteppedOnUnit->GetRowIndex()-TargetRow)+abs(SteppedOnUnit->GetColumnIndex()-TargetColumn) == 1)
 	{
 		NextLocation = FVector2D(TargetRow, TargetColumn);
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(TargetRow));
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(TargetColumn));
 	return NextLocation;
 }
 
