@@ -47,6 +47,10 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool bEnemySteppingOn;
 
+	//该格子是否可操作
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool bCanbeOprate;
+
 	UPROPERTY(BlueprintReadWrite)
 	int32 Digit = 0;
 
