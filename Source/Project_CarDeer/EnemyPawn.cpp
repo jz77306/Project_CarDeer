@@ -68,58 +68,84 @@ void AEnemyPawn::Death()
 
 FVector AEnemyPawn::FindNextLocation(FVector StartLocation)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(SteppedOnUnit->GetRowIndex()));
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(SteppedOnUnit->GetColumnIndex()));
 	FVector DestinationLoc = TargetPlayerChess->GetActorLocation();
 	FVector NextLocation = this->GetActorLocation();
-	int TargetRow, TargetColumn;
-	float Seed = FMath::FRand();
-	float XorYValve = FMath::FRand();
-	if(Seed<=0.7)
+	int TargetRow = -1, TargetColumn = -1, count = 0;
+	do
 	{
-		if(StartLocation.X>DestinationLoc.X)
+		TargetRow = SteppedOnUnit->GetRowIndex();
+		TargetColumn = SteppedOnUnit->GetColumnIndex();
+		float Seed = FMath::FRand();
+		float XorYValve = FMath::FRand();
+		if(Seed<=0.7)
 		{
-			if(XorYValve<0.5)
+			if(StartLocation.X>DestinationLoc.X)
 			{
-				TargetColumn = SteppedOnUnit->GetColumnIndex()-1;
-			}
-			else
-			{
-				if(StartLocation.Y > DestinationLoc.Y)
+				if(XorYValve<0.5)
 				{
-					TargetRow = SteppedOnUnit->GetRowIndex()-1;
+					TargetColumn = SteppedOnUnit->GetColumnIndex()-1;
 				}
 				else
 				{
-					TargetRow = SteppedOnUnit->GetRowIndex()+1;
+					if(StartLocation.Y > DestinationLoc.Y)
+					{
+						TargetRow = SteppedOnUnit->GetRowIndex()-1;
+					}
+					else
+					{
+						TargetRow = SteppedOnUnit->GetRowIndex()+1;
+					}
 				}
-			}
 
+			}
+			else
+			{
+				if(XorYValve<0.5)
+				{
+					TargetColumn = SteppedOnUnit->GetColumnIndex()+1;
+				}
+				else
+				{
+					if(StartLocation.Y > DestinationLoc.Y)
+					{
+						TargetRow = SteppedOnUnit->GetRowIndex()-1;
+					}
+					else
+					{
+						TargetRow = SteppedOnUnit->GetRowIndex()+1;
+					}
+				}
+
+			}
 		}
 		else
 		{
-			if(XorYValve<0.5)
-			{
-				TargetColumn = SteppedOnUnit->GetColumnIndex()+1;
-			}
-			else
-			{
-				if(StartLocation.Y > DestinationLoc.Y)
-				{
-					TargetRow = SteppedOnUnit->GetRowIndex()-1;
-				}
-				else
-				{
-					TargetRow = SteppedOnUnit->GetRowIndex()+1;
-				}
-			}
-
+			
+			if(XorYValve<0.5) TargetColumn = SteppedOnUnit->GetColumnIndex()+ (1*(Seed-0.85)/abs(Seed-0.85));
+			else TargetRow = SteppedOnUnit->GetRowIndex()+1*(Seed-0.85)/abs(Seed-0.85);
+		}
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(TargetRow));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(TargetColumn));
+		
+		if(TargetRow >= 0 && TargetRow < 5 && TargetColumn >= 0 && TargetColumn < 5 /*&& MapArranger->GetMapUnitInstance(TargetRow, TargetColumn)->bEnemySteppingOn == false*/)
+		{
+			//NextLocation = MapArranger->GetMapUnitInstance(TargetRow, TargetColumn)->GetActorLocation();
+			break;
+		}
+		
+		count++;
+		if(count == 20)
+		{
+			NextLocation = this->GetActorLocation();
+			break;
 		}
 	}
-	else
-	{
-		TargetColumn = SteppedOnUnit->GetColumnIndex()+ (1*(Seed-0.85)/abs(Seed-0.85));
-		TargetRow = SteppedOnUnit->GetRowIndex()+1*(Seed-0.85)/abs(Seed-0.85);
-	}
-	NextLocation = MapArranger->GetMapUnitInstance(TargetRow, TargetColumn)->GetActorLocation();
+	while(1);
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(TargetRow));
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(TargetColumn));
 	NextLocation.Z = this->GetActorLocation().Z;
 	return NextLocation;
 	
