@@ -131,7 +131,7 @@ FVector AEnemyPawn::FindNextLocation(FVector StartLocation)
 		
 		if(TargetRow >= 0 && TargetRow < 5 && TargetColumn >= 0 && TargetColumn < 5 /*&& MapArranger->GetMapUnitInstance(TargetRow, TargetColumn)->bEnemySteppingOn == false*/)
 		{
-			//NextLocation = MapArranger->GetMapUnitInstance(TargetRow, TargetColumn)->GetActorLocation();
+			NextLocation = MapArranger->GetMapUnitInstance(TargetRow, TargetColumn)->GetActorLocation();
 			break;
 		}
 		
