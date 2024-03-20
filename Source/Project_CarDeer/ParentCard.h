@@ -36,26 +36,25 @@ public:
 	UPROPERTY(BluePrintReadWrite)
 	int CardID;
 
-	bool IsInHand;
-
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsSelected = false;
+	
+	UPROPERTY(BlueprintReadWrite)
+	bool bSHouldReturn = true;
+	
 	bool IsDrawed = true;
-	bool bSHouldReturn;
 	bool bShouldPlay;
 
 	UPROPERTY(BLueprintReadWrite)
 	bool bSHouldBurn = false;
 
 	bool bIsInDeployZone = false;
-
-	bool bIsReleaseed = true;
 	
 	FVector LookAtVector;
 	
 	FRotator TargetRotation;
 	
 public:
-	UFUNCTION(BlueprintCallable)
-	void BindController();
 
 	UFUNCTION(BlueprintCallable)
 	void SetRotationToPlayer();

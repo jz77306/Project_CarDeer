@@ -40,7 +40,7 @@ public:
 	int NumOfCardsInHAnd = 0;
 
 	UPROPERTY(BlueprintReadWrite)
-	TArray<AParentCard*> ArrCardInHand;
+	TArray<FVector> ArrInHandPosition;
 
 	UPROPERTY(BlueprintReadWrite)
 	bool bNoSpaceInHand = false;
