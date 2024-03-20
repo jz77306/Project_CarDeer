@@ -37,6 +37,9 @@ public:
 	bool bIsDead;
 
 	UPROPERTY(BlueprintReadWrite)
+	bool bIsMoving;
+
+	UPROPERTY(BlueprintReadWrite)
 	bool bReadyToAction;
 
 	UPROPERTY(BlueprintReadWrite)
@@ -51,6 +54,12 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	AMapArranger* MapArranger = nullptr;
 
+	UPROPERTY(BlueprintReadWrite)
+	int SelfIndexX;
+
+	UPROPERTY(BlueprintReadWrite)
+	int SelfIndexY;
+
 public:
 	UFUNCTION(BlueprintCallable)
 	AMapUnit* StepOnTrace();
@@ -62,7 +71,7 @@ public:
 	void Death();
 
 	UFUNCTION(BlueprintCallable)
-	FVector FindNextLocation(FVector StartLocation);
+	FVector2D FindNextLocation(FVector StartLocation);
 
 	UFUNCTION(BlueprintCallable)
 	void MoveTo(FVector MoveToLocation);

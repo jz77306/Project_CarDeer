@@ -36,7 +36,7 @@ APlayerPawn::APlayerPawn()
 void APlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
-
+	for(int iter = 0; iter<=6; iter++) ArrInHandPosition.Add(FVector(0, 0, 0));
 	
 }
 
@@ -66,44 +66,35 @@ void APlayerPawn::ReorgnizeCards(int NumOfCard)
 	}
 	if(NumOfCard == 1)
 	{
-		ArrCardInHand[0]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[0]->GetActorLocation(), CenterPosition, 0.2, 0.2));
-		ArrCardInHand[0]->PositionInHand = CenterPosition;
+		ArrInHandPosition[0] = CenterPosition;
 	}
 	
 	if(NumOfCard == 2)
 	{
-		ArrCardInHand[0]->PositionInHand = CenterPosition+GapUnit;
-		ArrCardInHand[0]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[0]->GetActorLocation(), ArrCardInHand[0]->PositionInHand, 0.2, 0.2));
-		ArrCardInHand[1]->PositionInHand = CenterPosition-GapUnit;
-		ArrCardInHand[1]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[1]->GetActorLocation(), ArrCardInHand[1]->PositionInHand, 0.2, 0.2));
+		ArrInHandPosition[0] = CenterPosition+GapUnit;
+		ArrInHandPosition[1] = CenterPosition-GapUnit;
 	}
 	
 	if(NumOfCard >= 3 && NumOfCard <= 6)
 	{
 		if(NumOfCard%2 == 1)
 		{
-			ArrCardInHand[0]->PositionInHand = CenterPosition;
-			ArrCardInHand[0]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[0]->GetActorLocation(), ArrCardInHand[0]->PositionInHand, 0.2, 0.2));
-			ArrCardInHand[1]->PositionInHand = CenterPosition-2*GapUnit;
-			ArrCardInHand[1]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[1]->GetActorLocation(), ArrCardInHand[1]->PositionInHand, 0.2, 0.2));
+			ArrInHandPosition[0] = CenterPosition;
+			ArrInHandPosition[1] = CenterPosition-2*GapUnit;
 			
 			for(int iter = 2;iter<NumOfCard;iter++)
 			{
-					ArrCardInHand[iter]->PositionInHand = ArrCardInHand[iter-2]->PositionInHand-4*GapUnit*(iter%2-0.5)-AdjustVec;
-					ArrCardInHand[iter]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[iter]->GetActorLocation(), ArrCardInHand[iter]->PositionInHand, 0.2, 0.2));
+					ArrInHandPosition[iter]= ArrInHandPosition[iter-2]-4*GapUnit*(iter%2-0.5)-AdjustVec;
 			}
 		}
 		else
 		{
-			ArrCardInHand[0]->PositionInHand = CenterPosition+GapUnit;
-			ArrCardInHand[0]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[0]->GetActorLocation(), ArrCardInHand[0]->PositionInHand, 0.2, 0.2));
-			ArrCardInHand[1]->PositionInHand = CenterPosition-GapUnit;
-			ArrCardInHand[1]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[1]->GetActorLocation(), ArrCardInHand[1]->PositionInHand, 0.2, 0.2));
+			ArrInHandPosition[0] = CenterPosition+GapUnit;
+			ArrInHandPosition[1] = CenterPosition-GapUnit;
 
 			for(int iter = 2;iter<NumOfCard;iter++)
 			{
-				ArrCardInHand[iter]->PositionInHand = ArrCardInHand[iter-2]->PositionInHand-4*GapUnit*(iter%2-0.5)-AdjustVec;
-				ArrCardInHand[iter]->SetActorLocation(FMath::VInterpTo(ArrCardInHand[iter]->GetActorLocation(), ArrCardInHand[iter]->PositionInHand, 0.2, 0.2));
+				ArrInHandPosition[iter] = ArrInHandPosition[iter-2]-4*GapUnit*(iter%2-0.5)-AdjustVec;
 			}
 		}
 	}
@@ -118,7 +109,6 @@ bool APlayerPawn::AddCard(AParentCard* NewCard)
 {
 	if(NumOfCardsInHAnd < 6)
 	{
-		ArrCardInHand.Add(NewCard);
 		NumOfCardsInHAnd += 1;
 	}
 	else if(NumOfCardsInHAnd >= 6)

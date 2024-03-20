@@ -23,8 +23,7 @@ void AParentCard::BeginPlay()
 	IsDrawed = true;
 	
 	//测试用，设置手牌位置，后面重构
-	//PositionInHand = this->GetActorLocation();
-	PositionInHand = FVector(450, 1600, 100);
+	PositionInHand = this->GetActorLocation();
 }
 
 // Called every frame
@@ -53,11 +52,6 @@ void AParentCard::Tick(float DeltaTime)
 	}
 }
 
-void AParentCard::BindController()
-{
-	
-}
-
 void AParentCard::SetRotationToPlayer()
 {
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->GetName());
@@ -72,21 +66,14 @@ void AParentCard::SetRotationToPlayer()
 
 void AParentCard::Play()
 {
-    {
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TEXT("true"));
-		this->SetActorRotation(FMath::RInterpTo(this->GetActorRotation(), FRotator(270,0,180), 0.2, 2));
-		this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), PositionInHand, 0.2, 2));
-	}
+	this->SetActorRotation(FVector(-50,0,-200).Rotation());
+	bSHouldReturn = false;
 }
 
 void AParentCard::Return()
 {
-	if(bIsReleaseed)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TEXT("true"));
-		this->SetActorRotation(FMath::RInterpTo(this->GetActorRotation(), FRotator(270,0,180), 0.2, 2));
-		this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), PositionInHand, 0.2, 2));
-	}
+		//this->SetActorRotation(FMath::RInterpTo(this->GetActorRotation(), FRotator(270,0,180), 0.2, 0.4));
+		this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), PositionInHand, 0.2, 0.4));
 }
 
 void AParentCard::BurnSelf()
