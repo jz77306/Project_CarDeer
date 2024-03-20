@@ -48,6 +48,9 @@ public:
 	bool bEnemySteppingOn;
 
 	UPROPERTY(BlueprintReadWrite)
+	int32 Digit = 0;
+
+	UPROPERTY(BlueprintReadWrite)
 	AActor* ActorSteppedOn;
 	
 };
