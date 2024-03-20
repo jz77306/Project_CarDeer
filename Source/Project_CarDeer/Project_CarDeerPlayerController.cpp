@@ -121,6 +121,7 @@ void AProject_CarDeerPlayerController::BeginPlay()
 	BindHUD = Cast<ACarDeerHUD>(GetHUD());
 }
 
+//左键点击事件
 void AProject_CarDeerPlayerController::LeftMousePress()
 {
 	IsLeftMouseDown = true;
@@ -128,17 +129,20 @@ void AProject_CarDeerPlayerController::LeftMousePress()
 	AParentCard* ParentCard = New<AParentCard>(FMemStack::Get(), 1);
 	ACardPile* CardPile = New<ACardPile>(FMemStack::Get(), 1);
 	GetHitResultUnderCursor(ECC_Visibility, true, HitResult);
+	//点击选中卡牌
 	if(Cast<AParentCard>(HitResult.GetActor()))
 	{
 		TargetCard = Cast<AParentCard>(HitResult.GetActor());
 		TargetCard->bShouldPlay = false;
 		TargetCard->bSHouldReturn = false;
 		HaveCardInHand = true;
-		TargetCard->bIsReleaseed = false;
+		TargetCard->bIsSelected = true;
+		//TargetCard->bIsReleaseed = false;
 		TargetCard->SetActorRotation(FRotator(270,0,0));
 		LastLocation = TargetCard->GetActorLocation();
 		LastRotation = TargetCard->GetActorRotation();
 	}
+	//点击触发牌堆抽卡
 	else if(Cast<ACardPile>(HitResult.GetActor()))
 	{
 		if(!TargetCardPile)
@@ -154,6 +158,7 @@ void AProject_CarDeerPlayerController::LeftMousePress()
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,TEXT("Left Mouse Down"));
 }
 
+//左键释放事件
 void AProject_CarDeerPlayerController::LeftMouseRelease()
 {
 	if(TargetCard)
@@ -170,9 +175,10 @@ void AProject_CarDeerPlayerController::LeftMouseRelease()
 			HaveCardInHand = false;
 			bCardPlayed = false;
 		}
-		TargetCard->bIsReleaseed = true;
+		TargetCard->bIsSelected = false;
 		TargetCard = nullptr;
 	}
+	
 	IsLeftMouseDown = false;
 }
 
@@ -206,6 +212,8 @@ void AProject_CarDeerPlayerController::MoveCard(FVector WorldLocation, FVector W
 	TargetCard->SetActorRotation(NowRotator);
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *TargetCard->GetActorRotation().ToString());
 	float XVecComp = TargetCard->GetActorLocation().X;
+	
+	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TargetCard->GetActorLocation().ToString());
 	if(XVecComp >900.0f)
 	{
 		if(IsPlayerRound)

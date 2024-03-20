@@ -25,8 +25,9 @@ void AEnemyPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	StepOnTrace();
+	if(!bIsMoving) StepOnTrace();
 	MoveTo(Destination);
+	if(this->GetActorLocation() == Destination) bIsMoving = false;
 
 }
 
@@ -48,6 +49,8 @@ AMapUnit* AEnemyPawn::StepOnTrace()
 		SteppedOnUnit = Cast<AMapUnit>(HitResult.GetActor());
 		SteppedOnUnit->bEnemySteppingOn = true;
 		SteppedOnUnit->ActorSteppedOn = this;
+		SelfIndexX = SteppedOnUnit->GetRowIndex();
+		SelfIndexY = SteppedOnUnit->GetColumnIndex();
 	}
 	return SteppedOnUnit;
 }
@@ -66,87 +69,71 @@ void AEnemyPawn::Death()
 	
 }
 
-FVector AEnemyPawn::FindNextLocation(FVector StartLocation)
+FVector2D AEnemyPawn::FindNextLocation(FVector StartLocation)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(SteppedOnUnit->GetRowIndex()));
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(SteppedOnUnit->GetColumnIndex()));
 	FVector DestinationLoc = TargetPlayerChess->GetActorLocation();
-	FVector NextLocation = this->GetActorLocation();
-	int TargetRow = -1, TargetColumn = -1, count = 0;
-	do
+	FVector2D NextLocation = FVector2D(0, 0);
+	int TargetRow = -1, TargetColumn = -1;
+	TargetRow = SteppedOnUnit->GetRowIndex();
+	TargetColumn = SteppedOnUnit->GetColumnIndex();
+	
+	float Seed = FMath::FRand();
+	float XorYValve = FMath::FRand();
+	if(Seed<=0.8)
 	{
-		TargetRow = SteppedOnUnit->GetRowIndex();
-		TargetColumn = SteppedOnUnit->GetColumnIndex();
-		float Seed = FMath::FRand();
-		float XorYValve = FMath::FRand();
-		if(Seed<=0.7)
+		if(StartLocation.X>DestinationLoc.X)
 		{
-			if(StartLocation.X>DestinationLoc.X)
+			if(XorYValve<0.5)
 			{
-				if(XorYValve<0.5)
-				{
-					TargetColumn = SteppedOnUnit->GetColumnIndex()-1;
-				}
-				else
-				{
-					if(StartLocation.Y > DestinationLoc.Y)
-					{
-						TargetRow = SteppedOnUnit->GetRowIndex()-1;
-					}
-					else
-					{
-						TargetRow = SteppedOnUnit->GetRowIndex()+1;
-					}
-				}
-
+				TargetColumn = SteppedOnUnit->GetRowIndex()+1;
 			}
 			else
 			{
-				if(XorYValve<0.5)
+				if(StartLocation.Y > DestinationLoc.Y)
 				{
-					TargetColumn = SteppedOnUnit->GetColumnIndex()+1;
+					TargetRow = SteppedOnUnit->GetColumnIndex()-1;
 				}
 				else
 				{
-					if(StartLocation.Y > DestinationLoc.Y)
-					{
-						TargetRow = SteppedOnUnit->GetRowIndex()-1;
-					}
-					else
-					{
-						TargetRow = SteppedOnUnit->GetRowIndex()+1;
-					}
+					TargetRow = SteppedOnUnit->GetColumnIndex()+1;
 				}
-
 			}
+
 		}
 		else
 		{
-			
-			if(XorYValve<0.5) TargetColumn = SteppedOnUnit->GetColumnIndex()+ (1*(Seed-0.85)/abs(Seed-0.85));
-			else TargetRow = SteppedOnUnit->GetRowIndex()+1*(Seed-0.85)/abs(Seed-0.85);
-		}
+			if(XorYValve<0.5)
+			{
+				TargetColumn = SteppedOnUnit->GetRowIndex()-1;
+			}
+			else
+			{
+				if(StartLocation.Y > DestinationLoc.Y)
+				{
+					TargetRow = SteppedOnUnit->GetColumnIndex()-1;
+				}
+				else
+				{
+					TargetRow = SteppedOnUnit->GetColumnIndex()+1;
+				}
+			}
 
-		if(TargetRow >= 0 && TargetRow < 5 && TargetColumn >= 0 && TargetColumn < 5 && Cast<AMapUnit>(MapArranger->GetMapUnitInstance(TargetRow, TargetColumn))->bEnemySteppingOn == false)
-		{
-			NextLocation = Cast<AMapUnit>(MapArranger->GetMapUnitInstance(TargetRow, TargetColumn))->GetActorLocation();
-			break;
-		}
-		
-		count++;
-		if(count == 20)
-		{
-			NextLocation = this->GetActorLocation();
-			break;
 		}
 	}
-	while(1);
-
+	else if(Seed != 0.9)
+	{
+		if(XorYValve<0.5) TargetRow = SteppedOnUnit->GetColumnIndex()+ (1*(Seed-0.9)/abs(Seed-0.9));
+		else TargetColumn = SteppedOnUnit->GetRowIndex()+1*(Seed-0.9)/abs(Seed-0.9);
+	}
+	if(TargetRow >= 0 && TargetRow < 5 && TargetColumn >= 0 && TargetColumn < 5 && abs(SteppedOnUnit->GetRowIndex()-TargetRow)+abs(SteppedOnUnit->GetColumnIndex()-TargetColumn) == 1)
+	{
+		NextLocation = FVector2D(TargetRow, TargetColumn);
+	}
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(TargetRow));
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(TargetColumn));
-	NextLocation.Z = this->GetActorLocation().Z;
 	return NextLocation;
-	
 }
 
 void AEnemyPawn::MoveTo(FVector MoveToLocation)
