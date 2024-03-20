@@ -24,37 +24,55 @@ void AMapArranger::CreateChessboard(int32 Size)
 	// 创建棋盘格子
 	for (int32 Row = 0; Row < BoardSize; ++Row)
 	{
-		TArray<AMapUnit*> RowSquares;
 		for (int32 Column = 0; Column < BoardSize; ++Column)
 		{
 			// 创建棋盘格子并添加到数组中
 			UClass* AClass = LoadClass<AActor>(NULL,TEXT("/Game/Blueprints/BlockMap/BP_MapUnit.BP_MapUnit_C"));
-			AMapUnit* NewSquare = GetWorld()->SpawnActor<AMapUnit>(AClass); 
-			if (NewSquare)
-			{
-				// 设置格子的位置和索引
-				NewSquare->SetActorLocation(FVector(GetActorLocation().X-Column * 200.0f, GetActorLocation().Y+Row * 200.0f, 0.0f));
-				NewSquare->SetIndices(Row, Column);
+			
+			// 计算格子位置
+			FVector Location = FVector(GetActorLocation().X - Row * 200.0f, GetActorLocation().Y + Column * 200.0f, 0.0f);
 
-				RowSquares.Add(NewSquare);
+			// 创建棋盘格子并添加到数组中
+			AMapUnit* NewMapUnit = GetWorld()->SpawnActor<AMapUnit>(AClass,Location, FRotator::ZeroRotator);
+			
+			if (NewMapUnit)
+			{
+				// 设置格子的行列索引
+				NewMapUnit->SetIndices(Row, Column);
+
+				// 将棋盘格子添加到数组中
+				ChessboardGrid.Add(NewMapUnit);
 			}
 		}
-		ChessboardGrid.Add(RowSquares);
 	}
 }
 
-FVector AMapArranger::FindMapUnitLoc(int32 row, int32 col)
+FVector AMapArranger::GetMapUnitLoc(int32 row, int32 col)
 {
-	TArray<AMapUnit*> RowMapUnitInstance = ChessboardGrid[row];;
-	AMapUnit* ColMapUnitInstance = RowMapUnitInstance[col];
-	return ColMapUnitInstance->GetActorLocation();
+	// 查询格子的位置，返回FVector
+	if (row >= 0 && row < BoardSize && col >= 0 && col < BoardSize)
+	{
+		int32 Index = GetIndex(row, col);
+		if (Index != -1)
+		{
+			return ChessboardGrid[Index]->GetActorLocation();
+		}
+	}
+	return FVector::ZeroVector;
 }
 
 AMapUnit* AMapArranger::GetMapUnitInstance(int32 row, int32 col)
 {
-	TArray<AMapUnit*> RowMapUnitInstance = ChessboardGrid[row];;
-	AMapUnit* ColMapUnitInstance = RowMapUnitInstance[col];
-	return ColMapUnitInstance;
+	// 查询格子的实例：返回AMapUnit
+	if (row >= 0 && row < BoardSize && col >= 0 && col < BoardSize)
+	{
+		int32 Index = GetIndex(row, col);
+		if (Index != -1)
+		{
+			return ChessboardGrid[Index];
+		}
+	}
+	return nullptr;
 }
 
 // Called when the game starts or when spawned
@@ -64,6 +82,13 @@ void AMapArranger::BeginPlay()
 
 	// 初始化棋盘格
 	CreateChessboard(5);
+	
+}
+
+int32 AMapArranger::GetIndex(int32 Row, int32 Column) const
+{
+	// 获取一维数组中的索引
+	return Row * BoardSize + Column;
 }
 
 // Called every frame

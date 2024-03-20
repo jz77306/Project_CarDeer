@@ -25,7 +25,7 @@ public:
 
 	// 查询格子的位置，返回FVector
 	UFUNCTION(BlueprintCallable)
-	FVector FindMapUnitLoc(int32 row, int32 col);
+	FVector GetMapUnitLoc(int32 row, int32 col);
 
 	// 查询格子的实例：返回AMapUnit
 	UFUNCTION(BlueprintCallable)
@@ -36,12 +36,15 @@ protected:
 	virtual void BeginPlay() override;
 
 	// 棋盘的二维数组
-	//UPROPERTY(BlueprintReadWrite)
-	TArray<TArray<AMapUnit*>> ChessboardGrid;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	TArray<AMapUnit*> ChessboardGrid;
 
 	// 棋盘的大小
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int32 BoardSize;
+
+	// 获取一维数组中的索引
+	int32 GetIndex(int32 Row, int32 Column) const;
 	
 
 	
