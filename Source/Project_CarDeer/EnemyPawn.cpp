@@ -126,12 +126,10 @@ FVector AEnemyPawn::FindNextLocation(FVector StartLocation)
 			if(XorYValve<0.5) TargetColumn = SteppedOnUnit->GetColumnIndex()+ (1*(Seed-0.85)/abs(Seed-0.85));
 			else TargetRow = SteppedOnUnit->GetRowIndex()+1*(Seed-0.85)/abs(Seed-0.85);
 		}
-		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(TargetRow));
-		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FString::FromInt(TargetColumn));
-		
-		if(TargetRow >= 0 && TargetRow < 5 && TargetColumn >= 0 && TargetColumn < 5 /*&& MapArranger->GetMapUnitInstance(TargetRow, TargetColumn)->bEnemySteppingOn == false*/)
+
+		if(TargetRow >= 0 && TargetRow < 5 && TargetColumn >= 0 && TargetColumn < 5 && Cast<AMapUnit>(MapArranger->GetMapUnitInstance(TargetRow, TargetColumn))->bEnemySteppingOn == false)
 		{
-			NextLocation = MapArranger->GetMapUnitInstance(TargetRow, TargetColumn)->GetActorLocation();
+			NextLocation = Cast<AMapUnit>(MapArranger->GetMapUnitInstance(TargetRow, TargetColumn))->GetActorLocation();
 			break;
 		}
 		
