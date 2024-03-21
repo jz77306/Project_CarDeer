@@ -47,10 +47,13 @@ AMapUnit* AEnemyPawn::StepOnTrace()
 	if(bHaveHitRes)
 	{
 		SteppedOnUnit = Cast<AMapUnit>(HitResult.GetActor());
-		SteppedOnUnit->bEnemySteppingOn = true;
-		SteppedOnUnit->ActorSteppedOn = this;
-		SelfIndexX = SteppedOnUnit->GetRowIndex();
-		SelfIndexY = SteppedOnUnit->GetColumnIndex();
+		if (SteppedOnUnit)
+		{
+			SteppedOnUnit->bEnemySteppingOn = true;
+			SteppedOnUnit->ActorSteppedOn = this;
+			SelfIndexX = SteppedOnUnit->GetRowIndex();
+			SelfIndexY = SteppedOnUnit->GetColumnIndex();
+		}
 	}
 	return SteppedOnUnit;
 }
