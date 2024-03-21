@@ -64,7 +64,7 @@ void APlayerPawn::ReorgnizeCards(int NumOfCard)
 	{
 		return;
 	}
-	if(NumOfCard > 0 && NumOfCard < 6)
+	if(NumOfCard > 0 && NumOfCard <= 6)
 	{
 		ArrInHandPosition[0] = CenterPosition;
 		for(int iter = 1; iter <= NumOfCard; iter++)
