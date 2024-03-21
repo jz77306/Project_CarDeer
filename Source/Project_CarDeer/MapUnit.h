@@ -15,15 +15,34 @@ public:
 	// Sets default values for this actor's properties
 	AMapUnit();
 
+	//初始化格子随机数
+	UFUNCTION(BlueprintCallable)
+	void InitRandUnitNum();
+
+	//————————————————————————————Set————————————————————————————
 	// 设置格子的行列索引
 	void SetIndices(int32 NewRowIndex, int32 NewColumnIndex);
 
+	// 设置格子
+	void SetUnitNum(int32 NewUnitNum);
+
+	//————————————————————————————Get————————————————————————————
 	// 获取格子的行索引
+	UFUNCTION(BlueprintCallable)
 	int32 GetRowIndex() const { return RowIndex; }
 
 	// 获取格子的列索引
+	UFUNCTION(BlueprintCallable)
 	int32 GetColumnIndex() const { return ColumnIndex; }
 
+	// 获取格子的内部数字
+	UFUNCTION(BlueprintCallable)
+	int32 GetUnitNum() const { return UnitNum; }
+
+	//————————————————————————————Update—————————————————————————
+	UFUNCTION(BlueprintImplementableEvent)
+	void UpdateUnitNumShow();
+	
 	
 protected:
 	// 该格子的行列索引

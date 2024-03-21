@@ -4,9 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "MapUnit.h"
+//#include "MapArranger.h"
 #include "GameFramework/Actor.h"
 #include "GridCounter.generated.h"
 
+UENUM()
+enum class ERowColumnMark : uint8
+{
+	EC_Row,
+	EC_Column,
+	EC_Defult
+};
+
+class AMapArranger;
 UCLASS()
 class PROJECT_CARDEER_API AGridCounter : public AActor
 {
@@ -16,6 +26,18 @@ public:
 	// Sets default values for this actor's properties
 	AGridCounter();
 
+	//————————————————————————————Set————————————————————————————————————
+	// 设置行列标注
+	UFUNCTION(BlueprintCallable)
+	void SetRowColMark(ERowColumnMark NewMark);
+
+	//设置棋盘管理实例引用
+	UFUNCTION(BlueprintCallable)
+	void SetMapArranger(AMapArranger* MapArrangerInst);
+
+	UFUNCTION(BlueprintCallable)
+	void SetRowColIndex(int32 NewIndex);
+	
 	
 protected:
 	// Called when the game starts or when spawned
@@ -27,15 +49,28 @@ public:
 
 
 protected:
+	//计数器总和
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int32 SumNum;
 
-public:
-	// 更新行总和
-	UFUNCTION(BlueprintCallable)
-	void UpdateRowNum();
+	//计数器行列索引: 标记为Row则为RowIndex 标记为Column则为ColumnIndex
+	int32 RowColIndex;
 
-	// 更新列总和
+	//行列标记
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	ERowColumnMark RowColMark;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	AMapArranger* MapArranger;
+	
+public:
+	
+	// 更新总和
 	UFUNCTION(BlueprintCallable)
-	void UpdateColumnNum();
+	void UpdateCountersNum();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void UpdateCountersNumShow();
+	
+
 };

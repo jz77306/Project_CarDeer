@@ -47,6 +47,53 @@ void AMapArranger::CreateChessboard(int32 Size)
 	}
 }
 
+void AMapArranger::CreateGridCounter()
+{
+	// 清空累加器数组
+	GridCounters.Empty();
+
+	TArray<AMapUnit*> RowUnitInstance,ColumnUnitInstance;
+	RowUnitInstance = GetRowUnitInstance(BoardSize-1,0);
+	ColumnUnitInstance = GetColumnUnitInstance(0,BoardSize-1);
+
+	// 添加行计数器
+	for(auto i=0;i<BoardSize;i++)
+	{
+		//拿蓝图路径
+		UClass* AClass = LoadClass<AActor>(NULL,TEXT("/Game/Blueprints/BlockMap/BP_GridCounter.BP_GridCounter_C"));
+		//拿到当前边缘格实例位置
+		FVector EdgeUnitLocation = ColumnUnitInstance[i]->GetActorLocation();
+		//Spawn
+		AGridCounter* GridCounterInstance = GetWorld()->SpawnActor<AGridCounter>(AClass,FVector(EdgeUnitLocation.X,EdgeUnitLocation.Y+200,0.0f),FRotator::ZeroRotator);
+		//标注行
+		GridCounterInstance->SetRowColMark(ERowColumnMark::EC_Row);
+		//回传self引用
+		GridCounterInstance->SetMapArranger(this);
+		//回传第几行
+		GridCounterInstance->SetRowColIndex(i);
+		
+		GridCounters.Add(GridCounterInstance);
+	}
+	// 添加列计数器
+	for (auto i=0;i<BoardSize;i++)
+	{
+		//拿蓝图路径
+		UClass* AClass = LoadClass<AActor>(NULL,TEXT("/Game/Blueprints/BlockMap/BP_GridCounter.BP_GridCounter_C"));
+		//拿到当前边缘格实例位置
+		FVector EdgeUnitLocation = RowUnitInstance[i]->GetActorLocation();
+		//Spawn
+		AGridCounter* GridCounterInstance = GetWorld()->SpawnActor<AGridCounter>(AClass,FVector(EdgeUnitLocation.X-200,EdgeUnitLocation.Y,0.0f),FRotator::ZeroRotator);
+		//标记列
+		GridCounterInstance->SetRowColMark(ERowColumnMark::EC_Column);
+		//回传self引用
+		GridCounterInstance->SetMapArranger(this);
+		//回传第几列
+		GridCounterInstance->SetRowColIndex(i);
+		GridCounters.Add(GridCounterInstance);
+	}
+	
+}
+
 FVector AMapArranger::GetMapUnitLoc(int32 row, int32 col)
 {
 	// 查询格子的位置，返回FVector
@@ -109,6 +156,48 @@ TArray<AMapUnit*> AMapArranger::GetColumnUnitInstance(int32 row, int32 col)
 		}
 	}
 	return TArray<AMapUnit*>();
+}
+
+void AMapArranger::AddUnitNum(AMapUnit* UnitInstance, int32 AddNum)
+{
+	int32 NewUnitNum = UnitInstance->GetUnitNum()+ AddNum;
+	if(NewUnitNum>2)
+	{
+		UnitInstance->SetUnitNum(2);
+	}
+	else if(NewUnitNum<-2)
+	{
+		UnitInstance->SetUnitNum(-2);
+	}
+	else
+	{
+		UnitInstance->SetUnitNum(NewUnitNum);
+	}
+
+	//更新格子视效
+	UnitInstance->UpdateUnitNumShow();
+	
+	//更新计数器
+	int32 currentRow = UnitInstance->GetRowIndex();
+	int32 currentColumn = UnitInstance->GetColumnIndex();
+
+	GridCounters[currentRow]->UpdateCountersNum();
+	GridCounters[currentColumn+BoardSize]->UpdateCountersNum();
+}
+
+void AMapArranger::ClearUnitNum(AMapUnit* UnitInstance)
+{
+	UnitInstance->SetUnitNum(0);
+
+	//更新格子视效
+	UnitInstance->UpdateUnitNumShow();
+	
+	//更新计数器
+	int32 currentRow = UnitInstance->GetRowIndex();
+	int32 currentColumn = UnitInstance->GetColumnIndex();
+
+	GridCounters[currentRow]->UpdateCountersNum();
+	GridCounters[currentColumn+BoardSize]->UpdateCountersNum();
 }
 
 // Called when the game starts or when spawned
