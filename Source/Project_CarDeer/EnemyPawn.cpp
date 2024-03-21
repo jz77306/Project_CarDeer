@@ -23,12 +23,10 @@ void AEnemyPawn::BeginPlay()
 // Called every frame
 void AEnemyPawn::Tick(float DeltaTime)
 {
+	
 	Super::Tick(DeltaTime);
-
-	if(!bIsMoving) StepOnTrace();
 	MoveTo(Destination);
-	if(this->GetActorLocation() == Destination) bIsMoving = false;
-
+	
 }
 
 // Called to bind functionality to input
@@ -36,23 +34,6 @@ void AEnemyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-}
-
-AMapUnit* AEnemyPawn::StepOnTrace()
-{
-	FVector StartVec = this->GetActorLocation();
-	FVector EndVec = this->GetActorLocation()+FVector(0,0,-200);
-	FHitResult HitResult;
-	bool bHaveHitRes = GetWorld()->LineTraceSingleByChannel(HitResult, StartVec, EndVec, ECC_Visibility);
-	if(bHaveHitRes)
-	{
-		SteppedOnUnit = Cast<AMapUnit>(HitResult.GetActor());
-		SteppedOnUnit->bEnemySteppingOn = true;
-		SteppedOnUnit->ActorSteppedOn = this;
-		SelfIndexX = SteppedOnUnit->GetRowIndex();
-		SelfIndexY = SteppedOnUnit->GetColumnIndex();
-	}
-	return SteppedOnUnit;
 }
 
 void AEnemyPawn::TakeDamageFromPlayer(int DamageAmount)
@@ -153,14 +134,20 @@ void AEnemyPawn::FindNextLocation(int &TargetRow, int &TargetColumn, int InX, in
 	}
 	else
 	{
-		if(XorYValve<0.5) TargetRow = SteppedOnUnit->GetColumnIndex()+ (1*(Seed-0.9)/abs(Seed-0.9));
-		else TargetColumn = SteppedOnUnit->GetRowIndex()+1*(Seed-0.9)/abs(Seed-0.9);
+		TargetRow = InX;
+		TargetColumn = InY;
 	}
 }
 
 void AEnemyPawn::MoveTo(FVector MoveToLocation)
 {
 	this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), MoveToLocation, 0.2,0.5));
+}
+
+void AEnemyPawn::InitIndex(int X, int Y)
+{
+	SelfIndexX = X;
+	SelfIndexY = Y;
 }
 
 

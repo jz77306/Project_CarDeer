@@ -37,7 +37,7 @@ public:
 	bool bIsDead;
 
 	UPROPERTY(BlueprintReadWrite)
-	bool bIsMoving;
+	bool bIsMoving = false;
 
 	UPROPERTY(BlueprintReadWrite)
 	bool bReadyToAction;
@@ -62,9 +62,6 @@ public:
 
 public:
 	UFUNCTION(BlueprintCallable)
-	AMapUnit* StepOnTrace();
-
-	UFUNCTION(BlueprintCallable)
 	void TakeDamageFromPlayer(int DamageAmount);
 
 	UFUNCTION(BlueprintCallable)
@@ -75,5 +72,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void MoveTo(FVector MoveToLocation);
+
+	UFUNCTION(BlueprintCallable)
+	void InitIndex(int X, int Y);
 
 };
