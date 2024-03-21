@@ -75,13 +75,46 @@ AMapUnit* AMapArranger::GetMapUnitInstance(int32 row, int32 col)
 	return nullptr;
 }
 
+TArray<AMapUnit*> AMapArranger::GetRowUnitInstance(int32 row, int32 col)
+{
+	if (row >= 0 && row < BoardSize && col >= 0 && col < BoardSize)
+	{
+		TArray<AMapUnit*> UnitRowInstance;
+		int32 Index = row*BoardSize;
+		if(Index != -1)
+		{
+			for(auto i =Index;i<Index+BoardSize;i++)
+			{
+				UnitRowInstance.Add(ChessboardGrid[i]);
+			}
+			return UnitRowInstance;
+		}
+	}
+	return TArray<AMapUnit*>();
+}
+
+TArray<AMapUnit*> AMapArranger::GetColumnUnitInstance(int32 row, int32 col)
+{
+	if (row >= 0 && row < BoardSize && col >= 0 && col < BoardSize)
+	{
+		TArray<AMapUnit*> UnitRowInstance;
+		int32 Index = col % BoardSize;
+		if(Index != -1)
+		{
+			for (auto i = Index;i<Index+5*BoardSize;i+=BoardSize)
+			{
+				UnitRowInstance.Add(ChessboardGrid[i]);
+			}
+			return UnitRowInstance;
+		}
+	}
+	return TArray<AMapUnit*>();
+}
+
 // Called when the game starts or when spawned
 void AMapArranger::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// 初始化棋盘格
-	CreateChessboard(5);
 	
 }
 

@@ -69,14 +69,13 @@ void AEnemyPawn::Death()
 	
 }
 
-FVector2D AEnemyPawn::FindNextLocation()
+FVector2D AEnemyPawn::FindNextLocation(int &TargetRow, int &TargetColumn)
 {
 
 	int DestinyY = TargetPlayerChess->SelfIndexY;
 	int DestinyX = TargetPlayerChess->SelfIndexX;
 	//FVector DestinationLoc = TargetPlayerChess->GetActorLocation();
 	FVector2D NextLocation = FVector2D(0, 0);
-	int TargetRow = -1, TargetColumn = -1;
 	TargetRow = SteppedOnUnit->GetRowIndex();
 	TargetColumn = SteppedOnUnit->GetColumnIndex();
 	
