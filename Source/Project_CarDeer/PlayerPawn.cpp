@@ -57,48 +57,22 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void APlayerPawn::ReorgnizeCards(int NumOfCard)
 {
-	FVector CenterPosition = FVector(350, 1800, 100);
-	FVector GapUnit = FVector(0, 64, 0);
-	FVector AdjustVec = FVector(0, 0, 0);
+	FVector CenterPosition = FVector(350, 1400, 100);
+	FVector GapUnit = FVector(0, 128, 0);
+	//FVector AdjustVec = FVector(0, 0, 0);
 	if(NumOfCard == 0)
 	{
 		return;
 	}
-	if(NumOfCard == 1)
+	if(NumOfCard > 0 && NumOfCard < 6)
 	{
 		ArrInHandPosition[0] = CenterPosition;
-	}
-	
-	if(NumOfCard == 2)
-	{
-		ArrInHandPosition[0] = CenterPosition+GapUnit;
-		ArrInHandPosition[1] = CenterPosition-GapUnit;
-	}
-	
-	if(NumOfCard >= 3 && NumOfCard <= 6)
-	{
-		if(NumOfCard%2 == 1)
+		for(int iter = 1; iter <= NumOfCard; iter++)
 		{
-			ArrInHandPosition[0] = CenterPosition;
-			ArrInHandPosition[1] = CenterPosition-2*GapUnit;
-			
-			for(int iter = 2;iter<NumOfCard;iter++)
-			{
-					ArrInHandPosition[iter]= ArrInHandPosition[iter-2]-4*GapUnit*(iter%2-0.5)-AdjustVec;
-			}
+			ArrInHandPosition[iter] = ArrInHandPosition[iter-1] += GapUnit;
 		}
-		else
-		{
-			ArrInHandPosition[0] = CenterPosition+GapUnit;
-			ArrInHandPosition[1] = CenterPosition-GapUnit;
-
-			for(int iter = 2;iter<NumOfCard;iter++)
-			{
-				ArrInHandPosition[iter] = ArrInHandPosition[iter-2]-4*GapUnit*(iter%2-0.5)-AdjustVec;
-			}
-		}
+		
 	}
-
 	else
 	{
 		bNoSpaceInHand = true;

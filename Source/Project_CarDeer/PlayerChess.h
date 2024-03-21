@@ -37,6 +37,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	AMapUnit* SteppedOnUnit;
 
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsMoving = false;
+
 public:
 	UFUNCTION(BlueprintCallable)
 	void SteppedOnTrace();

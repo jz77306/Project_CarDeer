@@ -72,10 +72,9 @@ void AEnemyPawn::Death()
 FVector2D AEnemyPawn::FindNextLocation()
 {
 
-	int DestinyColumn = TargetPlayerChess->SelfIndexX;
-	int DestinyRow = TargetPlayerChess->SelfIndexY;
+	int DestinyY = TargetPlayerChess->SelfIndexY;
+	int DestinyX = TargetPlayerChess->SelfIndexX;
 	//FVector DestinationLoc = TargetPlayerChess->GetActorLocation();
-	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TargetPlayerChess->GetActorLocation().ToString());
 	FVector2D NextLocation = FVector2D(0, 0);
 	int TargetRow = -1, TargetColumn = -1;
 	TargetRow = SteppedOnUnit->GetRowIndex();
@@ -86,63 +85,63 @@ FVector2D AEnemyPawn::FindNextLocation()
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FVector2D(Seed, XorYValve).ToString());
 	if(Seed<=0.8)
 	{
-		if(SelfIndexX < DestinyColumn)
+		if(SelfIndexX < DestinyX)
 		{
 			if(XorYValve<0.5)
 			{
-				TargetColumn = SteppedOnUnit->GetColumnIndex()+1;
+				TargetRow = SteppedOnUnit->GetRowIndex()+1;
 			}
 			else
 			{
-				if(SelfIndexY > DestinyRow)
+				if(SelfIndexY > DestinyY)
 				{
-					TargetRow = SteppedOnUnit->GetRowIndex()-1;
+					TargetColumn = SteppedOnUnit->GetRowIndex()-1;
 				}
-				else if(SelfIndexY < DestinyRow)
+				else if(SelfIndexY < DestinyY)
 				{
-					TargetRow = SteppedOnUnit->GetRowIndex()+1;
+					TargetColumn = SteppedOnUnit->GetRowIndex()+1;
 				}
 			}
 
 		}
-		else if(SelfIndexX > DestinyColumn)
+		else if(SelfIndexX > DestinyX)
 		{
 			if(XorYValve<0.5)
 			{
-				TargetColumn = SteppedOnUnit->GetColumnIndex()-1;
+				TargetRow = SteppedOnUnit->GetColumnIndex()-1;
 			}
 			else
 			{
-				if(SelfIndexY > DestinyRow)
+				if(SelfIndexY > DestinyY)
 				{
 					TargetColumn = SteppedOnUnit->GetColumnIndex()-1;
 				}
-				else if(SelfIndexY < DestinyRow)
+				else if(SelfIndexY < DestinyY)
 				{
-					SelfIndexY = SteppedOnUnit->GetColumnIndex()+1;
+					TargetColumn = SteppedOnUnit->GetColumnIndex()+1;
 				}
 			}
 		}
-		if(SelfIndexY == DestinyRow)
+		if(SelfIndexY == DestinyY)
 		{
-			if(SelfIndexX > DestinyColumn)
+			if(SelfIndexX > DestinyX)
+			{
+				TargetRow = SteppedOnUnit->GetRowIndex()-1;
+			}
+			else if(SelfIndexX < DestinyX)
+			{
+				TargetRow = SteppedOnUnit->GetRowIndex()+1;
+			}
+		}
+		else if(SelfIndexX == DestinyX)
+		{
+			if(SelfIndexY > DestinyY)
 			{
 				TargetColumn = SteppedOnUnit->GetColumnIndex()-1;
 			}
-			else if(SelfIndexX < DestinyColumn)
+			else if(SelfIndexY < DestinyY)
 			{
 				TargetColumn = SteppedOnUnit->GetColumnIndex()+1;
-			}
-		}
-		else if(SelfIndexX == DestinyColumn)
-		{
-			if(SelfIndexX > DestinyColumn)
-			{
-				TargetColumn = SteppedOnUnit->GetRowIndex()-1;
-			}
-			else if(SelfIndexX < DestinyRow)
-			{
-				TargetColumn = SteppedOnUnit->GetRowIndex()+1;
 			}
 		}
 	}
