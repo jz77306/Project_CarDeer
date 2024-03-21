@@ -24,17 +24,12 @@ public:
 	// 获取格子的列索引
 	int32 GetColumnIndex() const { return ColumnIndex; }
 
-	
 protected:
 	// 该格子的行列索引
 	UPROPERTY(BlueprintReadOnly)
 	int32 RowIndex;
 	UPROPERTY(BlueprintReadOnly)
 	int32 ColumnIndex;
-
-	// 该格子内部数字
-	UPROPERTY(BlueprintReadOnly)
-	int32 UnitNum;
 	
 protected:
 	// Called when the game starts or when spawned
