@@ -24,7 +24,7 @@ void APlayerChess::BeginPlay()
 void APlayerChess::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if(!bIsMoving)SteppedOnTrace();
+	//if(!bIsMoving)SteppedOnTrace();
 }
 
 // Called to bind functionality to input
@@ -43,10 +43,13 @@ void APlayerChess::SteppedOnTrace()
 	if(bHaveHitRes)
 	{
 		SteppedOnUnit = Cast<AMapUnit>(HitResult.GetActor());
-		SteppedOnUnit->bPlayerSteppingOn = true;
-		SteppedOnUnit->ActorSteppedOn = this;
-		SelfIndexX = SteppedOnUnit->GetRowIndex();
-		SelfIndexY = SteppedOnUnit->GetColumnIndex();
+		if (SteppedOnUnit)
+		{
+			SteppedOnUnit->bPlayerSteppingOn = true;
+			SteppedOnUnit->ActorSteppedOn = this;
+			SelfIndexX = SteppedOnUnit->GetRowIndex();
+			SelfIndexY = SteppedOnUnit->GetColumnIndex();
+		}
 	}
 }
 
