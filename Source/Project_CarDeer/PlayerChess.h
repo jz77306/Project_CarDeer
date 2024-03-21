@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MapUnit.h"
 #include "GameFramework/Pawn.h"
 #include "PlayerChess.generated.h"
 
@@ -25,5 +26,22 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+public:
+	UPROPERTY(BlueprintReadWrite)
+	int SelfIndexX;
+
+	UPROPERTY(BlueprintReadWrite)
+	int SelfIndexY;
+
+	UPROPERTY(BlueprintReadWrite)
+	AMapUnit* SteppedOnUnit;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsMoving = false;
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void SteppedOnTrace();
 
 };

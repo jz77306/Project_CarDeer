@@ -66,14 +66,14 @@ void AParentCard::SetRotationToPlayer()
 
 void AParentCard::Play()
 {
-	this->SetActorRotation(FVector(-50,0,-200).Rotation());
+	this->SetActorRotation(FVector(50,0,-200).Rotation());
 	bSHouldReturn = false;
 }
 
 void AParentCard::Return()
 {
-		//this->SetActorRotation(FMath::RInterpTo(this->GetActorRotation(), FRotator(270,0,180), 0.2, 0.4));
-		this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), PositionInHand, 0.2, 0.4));
+	this->SetActorRotation(FMath::RInterpTo(this->GetActorRotation(), FVector(-50,0,-200).Rotation(), 0.2, 0.4));
+	this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), PositionInHand, 0.2, 0.4));
 }
 
 void AParentCard::BurnSelf()
