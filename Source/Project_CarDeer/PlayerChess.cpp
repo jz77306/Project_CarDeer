@@ -24,7 +24,7 @@ void APlayerChess::BeginPlay()
 void APlayerChess::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if(!bIsMoving)SteppedOnTrace();
+	//if(!bIsMoving)SteppedOnTrace();
 }
 
 // Called to bind functionality to input
