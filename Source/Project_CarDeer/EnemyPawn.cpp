@@ -69,22 +69,19 @@ void AEnemyPawn::Death()
 	
 }
 
-FVector2D AEnemyPawn::FindNextLocation(int &TargetRow, int &TargetColumn)
+void AEnemyPawn::FindNextLocation(int &TargetRow, int &TargetColumn, int InX, int InY)
 {
 
 	int DestinyY = TargetPlayerChess->SelfIndexY;
 	int DestinyX = TargetPlayerChess->SelfIndexX;
-	//FVector DestinationLoc = TargetPlayerChess->GetActorLocation();
-	FVector2D NextLocation = FVector2D(0, 0);
-	TargetRow = SteppedOnUnit->GetRowIndex();
-	TargetColumn = SteppedOnUnit->GetColumnIndex();
-	
+	TargetRow = InX;
+	TargetColumn = InY;
 	float Seed = FMath::FRand();
 	float XorYValve = FMath::FRand();
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,FVector2D(Seed, XorYValve).ToString());
+	
 	if(Seed<=0.8)
 	{
-		if(SelfIndexX < DestinyX)
+		if(InX < DestinyX)
 		{
 			if(XorYValve<0.5)
 			{
@@ -92,53 +89,53 @@ FVector2D AEnemyPawn::FindNextLocation(int &TargetRow, int &TargetColumn)
 			}
 			else
 			{
-				if(SelfIndexY > DestinyY)
-				{
-					TargetColumn = SteppedOnUnit->GetRowIndex()-1;
-				}
-				else if(SelfIndexY < DestinyY)
-				{
-					TargetColumn = SteppedOnUnit->GetRowIndex()+1;
-				}
-			}
-
-		}
-		else if(SelfIndexX > DestinyX)
-		{
-			if(XorYValve<0.5)
-			{
-				TargetRow = SteppedOnUnit->GetColumnIndex()-1;
-			}
-			else
-			{
-				if(SelfIndexY > DestinyY)
+				if(InY > DestinyY)
 				{
 					TargetColumn = SteppedOnUnit->GetColumnIndex()-1;
 				}
-				else if(SelfIndexY < DestinyY)
+				else if(InY < DestinyY)
 				{
 					TargetColumn = SteppedOnUnit->GetColumnIndex()+1;
 				}
 			}
 		}
-		if(SelfIndexY == DestinyY)
+		else if(InX > DestinyX)
 		{
-			if(SelfIndexX > DestinyX)
+			if(XorYValve<0.5)
 			{
 				TargetRow = SteppedOnUnit->GetRowIndex()-1;
 			}
-			else if(SelfIndexX < DestinyX)
+			else
+			{
+				if(InY > DestinyY)
+				{
+					TargetColumn = SteppedOnUnit->GetColumnIndex()-1;
+				}
+				else if(InY < DestinyY)
+				{
+					TargetColumn = SteppedOnUnit->GetColumnIndex()+1;
+				}
+			}
+		}
+		
+		if(InY == DestinyY)
+		{
+			if(InX > DestinyX)
+			{
+				TargetRow = SteppedOnUnit->GetRowIndex()-1;
+			}
+			else if(InX < DestinyX)
 			{
 				TargetRow = SteppedOnUnit->GetRowIndex()+1;
 			}
 		}
-		else if(SelfIndexX == DestinyX)
+		else if(InX == DestinyX)
 		{
-			if(SelfIndexY > DestinyY)
+			if(InY > DestinyY)
 			{
 				TargetColumn = SteppedOnUnit->GetColumnIndex()-1;
 			}
-			else if(SelfIndexY < DestinyY)
+			else if(InY < DestinyY)
 			{
 				TargetColumn = SteppedOnUnit->GetColumnIndex()+1;
 			}
@@ -150,11 +147,15 @@ FVector2D AEnemyPawn::FindNextLocation(int &TargetRow, int &TargetColumn)
 		else TargetColumn = SteppedOnUnit->GetRowIndex()+1*(Seed-0.9)/abs(Seed-0.9);
 	}
 	
-	if(TargetRow >= 0 && TargetRow < 5 && TargetColumn >= 0 && TargetColumn < 5 && abs(SteppedOnUnit->GetRowIndex()-TargetRow)+abs(SteppedOnUnit->GetColumnIndex()-TargetColumn) == 1)
+	if(TargetRow >= 0 && TargetRow < 5 && TargetColumn >= 0 && TargetColumn < 5 && abs(InX-TargetRow)+abs(InY-TargetColumn) == 1)
 	{
-		NextLocation = FVector2D(TargetRow, TargetColumn);
+		return;
 	}
-	return NextLocation;
+	else
+	{
+		if(XorYValve<0.5) TargetRow = SteppedOnUnit->GetColumnIndex()+ (1*(Seed-0.9)/abs(Seed-0.9));
+		else TargetColumn = SteppedOnUnit->GetRowIndex()+1*(Seed-0.9)/abs(Seed-0.9);
+	}
 }
 
 void AEnemyPawn::MoveTo(FVector MoveToLocation)

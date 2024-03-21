@@ -71,7 +71,7 @@ public:
 	void Death();
 
 	UFUNCTION(BlueprintCallable)
-	FVector2D FindNextLocation(int &TargetRow, int &TargetColumn);
+	void FindNextLocation(int &TargetRow, int &TargetColumn, int InX, int InY);
 
 	UFUNCTION(BlueprintCallable)
 	void MoveTo(FVector MoveToLocation);
