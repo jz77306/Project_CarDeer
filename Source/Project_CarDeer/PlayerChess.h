@@ -34,14 +34,16 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	int SelfIndexY;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AMapUnit* SteppedOnUnit;
 
 	UPROPERTY(BlueprintReadWrite)
 	bool bIsMoving = false;
 
+	UPROPERTY(BlueprintReadWrite)
+	FVector Destination;
+
 public:
 	UFUNCTION(BlueprintCallable)
-	void SteppedOnTrace();
-
+	void MoveTo(FVector MoveToLocation);
 };

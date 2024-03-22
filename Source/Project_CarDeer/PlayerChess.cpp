@@ -17,6 +17,7 @@ APlayerChess::APlayerChess()
 void APlayerChess::BeginPlay()
 {
 	Super::BeginPlay();
+	Destination = this->GetActorLocation();
 	
 }
 
@@ -24,6 +25,7 @@ void APlayerChess::BeginPlay()
 void APlayerChess::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	MoveTo(Destination);
 	//if(!bIsMoving)SteppedOnTrace();
 }
 
@@ -34,6 +36,12 @@ void APlayerChess::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 }
 
+void APlayerChess::MoveTo(FVector MoveToLocation)
+{
+	this->SetActorLocation(FMath::VInterpTo(this->GetActorLocation(), MoveToLocation, 0.2,0.5));
+}
+
+/*
 void APlayerChess::SteppedOnTrace()
 {
 	FVector StartVec = this->GetActorLocation();
@@ -52,4 +60,4 @@ void APlayerChess::SteppedOnTrace()
 		}
 	}
 }
-
+*/

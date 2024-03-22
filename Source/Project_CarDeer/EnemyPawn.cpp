@@ -134,8 +134,7 @@ void AEnemyPawn::FindNextLocation(int &TargetRow, int &TargetColumn, int InX, in
 	}
 	else
 	{
-		TargetRow = InX;
-		TargetColumn = InY;
+		FindNextLocation(TargetRow, TargetColumn, InX, InY);
 	}
 }
 
