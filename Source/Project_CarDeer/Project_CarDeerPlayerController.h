@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "CarDeerHUD.h"
 #include "CardPile.h"
+#include "MapUnit.h"
 #include "ParentCard.h"
 #include "PlayerPawn.h"
 #include "Templates/SubclassOf.h"
@@ -66,12 +67,18 @@ public:
 	ACardPile* TargetCardPile = nullptr;
 
 	UPROPERTY(BlueprintReadWrite)
+	AMapUnit* TargetMapUnit;
+
+	UPROPERTY(BlueprintReadWrite)
 	bool bHitCardPile;
 	
 	UPROPERTY(BlueprintReadWrite)
 	bool bCardPlayed;
 
 	bool IsLeftMouseDown;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bHitMapUnit = false;
 
 	bool HaveCardInHand = false;
 	

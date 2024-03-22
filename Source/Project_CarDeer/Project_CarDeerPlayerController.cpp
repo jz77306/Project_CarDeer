@@ -1,6 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "Project_CarDeerPlayerController.h"
+
+#include "EnemyPawn.h"
+#include "MapUnit.h"
 #include "GameFramework/Pawn.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "NiagaraSystem.h"
@@ -154,6 +157,17 @@ void AProject_CarDeerPlayerController::LeftMousePress()
 			bHitCardPile = true;
 		}
 	}
+	//点击对目标地格释放效果
+	else if(Cast<AMapUnit>(HitResult.GetActor()))
+	{
+		bHitMapUnit = true;
+		TargetMapUnit = Cast<AMapUnit>(HitResult.GetActor());
+	}
+	else if(Cast<AEnemyPawn>(HitResult.GetActor()))
+	{
+		bHitMapUnit = true;
+		TargetMapUnit = Cast<AEnemyPawn>(HitResult.GetActor())->SteppedOnUnit;
+	}
 	
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,TEXT("Left Mouse Down"));
 }
@@ -177,6 +191,10 @@ void AProject_CarDeerPlayerController::LeftMouseRelease()
 		}
 		TargetCard->bIsSelected = false;
 		TargetCard = nullptr;
+	}
+	if(bHitMapUnit)
+	{
+		bHitMapUnit = false;
 	}
 	
 	IsLeftMouseDown = false;
