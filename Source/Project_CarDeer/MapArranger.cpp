@@ -158,6 +158,42 @@ TArray<AMapUnit*> AMapArranger::GetColumnUnitInstance(int32 row, int32 col)
 	return TArray<AMapUnit*>();
 }
 
+TArray<AMapUnit*> AMapArranger::GetRowColumnIntersection()
+{
+	TArray<AMapUnit*> ColumnRowIntersectionArr;
+	for(auto RowIndex=0;RowIndex<BoardSize;RowIndex++)
+	{
+		for (auto ColIndex = BoardSize;ColIndex<BoardSize*2;ColIndex++)
+		{
+			 if(GridCounters[ColIndex]->GetSumNum()==GridCounters[RowIndex]->GetSumNum() && GridCounters[ColIndex]->GetSumNum()!=0)
+			 {
+			 	AMapUnit* UnitInstance = GetMapUnitInstance(GridCounters[RowIndex]->GetRowColIndex(),GridCounters[ColIndex]->GetRowColIndex());
+			 	ColumnRowIntersectionArr.Add(UnitInstance);
+			 }
+		}
+	}
+	
+	return ColumnRowIntersectionArr;
+}
+
+TArray<AMapUnit*> AMapArranger::GetTotalRowColUnitInstance(int32 row, int32 col)
+{
+	TArray<AMapUnit*> RowUnitInstance= GetRowUnitInstance(row,col),ColUnitInstance= GetColumnUnitInstance(row,col);
+	//TArray<AMapUnit*> TotalRowColUnitInstance;
+	TSet<AMapUnit*> UniqueTotalRowColUnitInstance;
+	TArray<AMapUnit*> FinalTotalRowColUnitInstance;
+	UniqueTotalRowColUnitInstance.Append(RowUnitInstance);
+	UniqueTotalRowColUnitInstance.Append(ColUnitInstance);
+
+	for(AMapUnit* UnitInstance : UniqueTotalRowColUnitInstance)
+	{
+		FinalTotalRowColUnitInstance.Add(UnitInstance);
+	}
+	
+	return FinalTotalRowColUnitInstance; 
+	
+}
+
 void AMapArranger::AddUnitNum(AMapUnit* UnitInstance, int32 AddNum)
 {
 	int32 NewUnitNum = UnitInstance->GetUnitNum()+ AddNum;

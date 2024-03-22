@@ -47,6 +47,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TArray<AMapUnit*> GetColumnUnitInstance(int32 row, int32 col);
 
+	// 查询格子的纵横交点格子实例数组：无输入，直接返回TArray<AMapUnit*>
+	UFUNCTION(BlueprintCallable)
+	TArray<AMapUnit*> GetRowColumnIntersection();
+
+	// 查询格子的行列总实例： 输入row、col ； 返回TArray<AMapUnit*>
+	UFUNCTION(BlueprintCallable)
+	TArray<AMapUnit*> GetTotalRowColUnitInstance(int32 row, int32 col);
 	//————————————————————————————————————————————————————————————————————
 
 

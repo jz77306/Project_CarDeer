@@ -37,7 +37,13 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetRowColIndex(int32 NewIndex);
-	
+
+	//————————————————————————————Get————————————————————————————————————
+	UFUNCTION(BlueprintCallable)
+	int32 GetSumNum() const {return SumNum;}
+
+	UFUNCTION(BlueprintCallable)
+	int32 GetRowColIndex() const {return RowColIndex;}
 	
 protected:
 	// Called when the game starts or when spawned
