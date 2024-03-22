@@ -148,7 +148,7 @@ TArray<AMapUnit*> AMapArranger::GetColumnUnitInstance(int32 row, int32 col)
 		int32 Index = col % BoardSize;
 		if(Index != -1)
 		{
-			for (auto i = Index;i<Index+5*BoardSize;i+=BoardSize)
+			for (auto i = Index;i<Index+BoardSize*BoardSize;i+=BoardSize)
 			{
 				UnitRowInstance.Add(ChessboardGrid[i]);
 			}
