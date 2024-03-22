@@ -30,7 +30,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 public:
-	UPROPERTY(BlueprintReadWrite, Category="Attribute")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Attribute")
 	int Blood;
 
 	UPROPERTY(BlueprintReadWrite)
