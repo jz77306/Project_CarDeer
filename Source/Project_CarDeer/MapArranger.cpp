@@ -64,7 +64,7 @@ void AMapArranger::CreateGridCounter()
 		//拿到当前边缘格实例位置
 		FVector EdgeUnitLocation = ColumnUnitInstance[i]->GetActorLocation();
 		//Spawn
-		AGridCounter* GridCounterInstance = GetWorld()->SpawnActor<AGridCounter>(AClass,FVector(EdgeUnitLocation.X,EdgeUnitLocation.Y+BoardDistance,0.0f),FRotator::ZeroRotator);
+		AGridCounter* GridCounterInstance = GetWorld()->SpawnActor<AGridCounter>(AClass,FVector(EdgeUnitLocation.X,EdgeUnitLocation.Y+CounterDistance,0.0f),FRotator::ZeroRotator);
 		//标注行
 		GridCounterInstance->SetRowColMark(ERowColumnMark::EC_Row);
 		//回传self引用
@@ -82,7 +82,7 @@ void AMapArranger::CreateGridCounter()
 		//拿到当前边缘格实例位置
 		FVector EdgeUnitLocation = RowUnitInstance[i]->GetActorLocation();
 		//Spawn
-		AGridCounter* GridCounterInstance = GetWorld()->SpawnActor<AGridCounter>(AClass,FVector(EdgeUnitLocation.X-BoardDistance,EdgeUnitLocation.Y,0.0f),FRotator::ZeroRotator);
+		AGridCounter* GridCounterInstance = GetWorld()->SpawnActor<AGridCounter>(AClass,FVector(EdgeUnitLocation.X-CounterDistance,EdgeUnitLocation.Y,0.0f),FRotator::ZeroRotator);
 		//标记列
 		GridCounterInstance->SetRowColMark(ERowColumnMark::EC_Column);
 		//回传self引用
