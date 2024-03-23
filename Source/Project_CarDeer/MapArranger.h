@@ -86,8 +86,14 @@ protected:
 
 	// 获取一维数组中的索引
 	int32 GetIndex(int32 Row, int32 Column) const;
-	
 
+	//格子间距
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float BoardDistance;
+
+	//格子大小
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FVector BoardScale;
 	
 public:	
 	// Called every frame

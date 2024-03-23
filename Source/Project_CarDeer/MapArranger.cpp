@@ -30,7 +30,7 @@ void AMapArranger::CreateChessboard(int32 Size)
 			UClass* AClass = LoadClass<AActor>(NULL,TEXT("/Game/Blueprints/BlockMap/BP_MapUnit.BP_MapUnit_C"));
 			
 			// 计算格子位置
-			FVector Location = FVector(GetActorLocation().X - Row * 200.0f, GetActorLocation().Y + Column * 200.0f, 0.0f);
+			FVector Location = FVector(GetActorLocation().X - Row * BoardDistance, GetActorLocation().Y + Column * BoardDistance, 0.0f);
 
 			// 创建棋盘格子并添加到数组中
 			AMapUnit* NewMapUnit = GetWorld()->SpawnActor<AMapUnit>(AClass,Location, FRotator::ZeroRotator);
@@ -39,7 +39,7 @@ void AMapArranger::CreateChessboard(int32 Size)
 			{
 				// 设置格子的行列索引
 				NewMapUnit->SetIndices(Row, Column);
-
+				NewMapUnit->SetActorScale3D(BoardScale);
 				// 将棋盘格子添加到数组中
 				ChessboardGrid.Add(NewMapUnit);
 			}
@@ -64,7 +64,7 @@ void AMapArranger::CreateGridCounter()
 		//拿到当前边缘格实例位置
 		FVector EdgeUnitLocation = ColumnUnitInstance[i]->GetActorLocation();
 		//Spawn
-		AGridCounter* GridCounterInstance = GetWorld()->SpawnActor<AGridCounter>(AClass,FVector(EdgeUnitLocation.X,EdgeUnitLocation.Y+200,0.0f),FRotator::ZeroRotator);
+		AGridCounter* GridCounterInstance = GetWorld()->SpawnActor<AGridCounter>(AClass,FVector(EdgeUnitLocation.X,EdgeUnitLocation.Y+BoardDistance,0.0f),FRotator::ZeroRotator);
 		//标注行
 		GridCounterInstance->SetRowColMark(ERowColumnMark::EC_Row);
 		//回传self引用
@@ -82,7 +82,7 @@ void AMapArranger::CreateGridCounter()
 		//拿到当前边缘格实例位置
 		FVector EdgeUnitLocation = RowUnitInstance[i]->GetActorLocation();
 		//Spawn
-		AGridCounter* GridCounterInstance = GetWorld()->SpawnActor<AGridCounter>(AClass,FVector(EdgeUnitLocation.X-200,EdgeUnitLocation.Y,0.0f),FRotator::ZeroRotator);
+		AGridCounter* GridCounterInstance = GetWorld()->SpawnActor<AGridCounter>(AClass,FVector(EdgeUnitLocation.X-BoardDistance,EdgeUnitLocation.Y,0.0f),FRotator::ZeroRotator);
 		//标记列
 		GridCounterInstance->SetRowColMark(ERowColumnMark::EC_Column);
 		//回传self引用
