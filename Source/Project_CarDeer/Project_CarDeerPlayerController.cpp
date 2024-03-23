@@ -232,7 +232,7 @@ void AProject_CarDeerPlayerController::MoveCard(FVector WorldLocation, FVector W
 	float YVecComp = TargetCard->GetActorLocation().Y;
 	
 	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TargetCard->GetActorLocation().ToString());
-	if(YVecComp >2100.0f)
+	if(YVecComp >CardingArea)
 	{
 		if(IsPlayerRound && CanPlayCard)
 		{

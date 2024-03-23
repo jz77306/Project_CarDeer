@@ -48,6 +48,12 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	int Mana;
 
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FVector CenterPosition;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FVector GapUnit;
 public:
 	UFUNCTION(BlueprintCallable)
 	void ReorgnizeCards(int NumOfCard);

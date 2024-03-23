@@ -57,8 +57,7 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void APlayerPawn::ReorgnizeCards(int NumOfCard)
 {
-	FVector CenterPosition = FVector(350, 1400, 100);
-	FVector GapUnit = FVector(0, 128, 0);
+
 	//FVector AdjustVec = FVector(0, 0, 0);
 	if(NumOfCard == 0)
 	{

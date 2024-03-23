@@ -95,6 +95,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool HaveDrawCard = false;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float CardingArea;
+
 public:
 	virtual void BeginPlay() override;
 
