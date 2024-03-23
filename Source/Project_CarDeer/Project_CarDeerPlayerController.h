@@ -84,6 +84,9 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite)
 	bool IsPlayerRound = false;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool CanPlayCard = false;
 	
 	FVector3d LastLocation;
     	
