@@ -234,7 +234,7 @@ void AProject_CarDeerPlayerController::MoveCard(FVector WorldLocation, FVector W
 	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TargetCard->GetActorLocation().ToString());
 	if(XVecComp >900.0f)
 	{
-		if(IsPlayerRound)
+		if(IsPlayerRound && CanPlayCard)
 		{
 			// GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TEXT("true"));
 			TargetCard->bIsInDeployZone = true;
