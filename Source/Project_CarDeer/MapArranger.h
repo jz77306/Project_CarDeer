@@ -90,6 +90,7 @@ protected:
 	//格子间距
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float BoardDistance;
+	
 
 	//格子大小
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
