@@ -229,10 +229,10 @@ void AProject_CarDeerPlayerController::MoveCard(FVector WorldLocation, FVector W
 	NowRotator.Pitch = TargetRotator.Pitch + MoveLocation.X*0.8;
 	TargetCard->SetActorRotation(NowRotator);
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *TargetCard->GetActorRotation().ToString());
-	float XVecComp = TargetCard->GetActorLocation().X;
+	float YVecComp = TargetCard->GetActorLocation().Y;
 	
 	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White,TargetCard->GetActorLocation().ToString());
-	if(XVecComp >900.0f)
+	if(YVecComp >2100.0f)
 	{
 		if(IsPlayerRound && CanPlayCard)
 		{

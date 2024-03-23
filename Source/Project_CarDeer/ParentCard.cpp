@@ -66,7 +66,9 @@ void AParentCard::SetRotationToPlayer()
 
 void AParentCard::Play()
 {
-	this->SetActorRotation(FVector(50,0,-200).Rotation());
+	FRotator PlayRot = FVector(-50,0,200).Rotation();
+	PlayRot.Pitch += 180;
+	this->SetActorRotation(PlayRot);
 	bSHouldReturn = false;
 }
 
