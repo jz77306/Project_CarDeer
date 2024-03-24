@@ -165,7 +165,7 @@ void AProject_CarDeerPlayerController::LeftMousePress()
 	ACardPile* CardPile = New<ACardPile>(FMemStack::Get(), 1);
 	GetHitResultUnderCursor(ECC_Visibility, true, HitResult);
 	//点击选中卡牌
-	if(Cast<AParentCard>(HitResult.GetActor()))
+	if(Cast<AParentCard>(HitResult.GetActor())  && Cast<AParentCard>(HitResult.GetActor())->bCanSelect)
 	{
 		TargetCard = Cast<AParentCard>(HitResult.GetActor());
 		TargetCard->bShouldPlay = false;
@@ -176,6 +176,7 @@ void AProject_CarDeerPlayerController::LeftMousePress()
 		TargetCard->SetActorRotation(FRotator(270,0,0));
 		LastLocation = TargetCard->GetActorLocation();
 		LastRotation = TargetCard->GetActorRotation();
+
 	}
 	//点击触发牌堆抽卡
 	else if(Cast<ACardPile>(HitResult.GetActor()))
