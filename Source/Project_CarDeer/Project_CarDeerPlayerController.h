@@ -15,6 +15,19 @@
 /** Forward declaration to improve compiling times */
 class UNiagaraSystem;
 
+// 定义卡组结构体存储卡牌类型和权值
+USTRUCT(BlueprintType)
+struct FCardTypeInfo
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<AActor> CardType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Weight;
+};
+
 UCLASS()
 class AProject_CarDeerPlayerController : public APlayerController
 {
@@ -98,6 +111,19 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float CardingArea;
 
+	// 卡组结构体数组
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	TArray<FCardTypeInfo> CardTypes;
+
+protected:
+
+	// 根据权值生成区间数组
+	TArray<int32> GenerateRangeArray() const;
+
+	// 根据区间数组随机选取卡牌类型
+	TSubclassOf<AActor> RandomCardType(const TArray<int32>& RangeArray) const;
+
+	
 public:
 	virtual void BeginPlay() override;
 
@@ -113,6 +139,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void MoveCard(FVector WorldLocation, FVector WorldDirection);
 
+	UFUNCTION(BlueprintCallable)
+	TSubclassOf<AActor> GetRandomCardType() const;
+
+	
 };
 
 
