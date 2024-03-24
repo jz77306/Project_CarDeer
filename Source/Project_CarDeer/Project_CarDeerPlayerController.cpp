@@ -117,6 +117,38 @@ void AProject_CarDeerPlayerController::OnTouchReleased(const ETouchIndex::Type F
 
 //Customed Function-Declerations Below----------------------------------------------------------------------------------
 
+
+TArray<int32> AProject_CarDeerPlayerController::GenerateRangeArray() const
+{
+	TArray<int32> RangeArray;
+
+	int32 TotalWeight = 0;
+	for (const FCardTypeInfo& CardType : CardTypes)
+	{
+		TotalWeight += CardType.Weight;
+		RangeArray.Add(TotalWeight);
+	}
+
+	return RangeArray;
+}
+
+TSubclassOf<AActor> AProject_CarDeerPlayerController::RandomCardType(const TArray<int32>& RangeArray) const
+{
+	// 生成0到总权值-1的随机数
+	int32 RandomNumber = FMath::RandRange(0, RangeArray.Last() - 1);
+
+	// 区间数组中找随机数de 所在区间
+	for (int32 Index = 0; Index < RangeArray.Num(); ++Index)
+	{
+		if (RandomNumber < RangeArray[Index])
+		{
+			return CardTypes[Index].CardType;
+		}
+	}
+	
+	return nullptr;
+}
+
 void AProject_CarDeerPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -247,5 +279,10 @@ void AProject_CarDeerPlayerController::MoveCard(FVector WorldLocation, FVector W
 	}
 }
 
-
+TSubclassOf<AActor> AProject_CarDeerPlayerController::GetRandomCardType() const
+{
+	TArray<int32> RangeArray = GenerateRangeArray();
+	TSubclassOf<AActor> SelectedCardType = RandomCardType(RangeArray);
+	return SelectedCardType;
+}
 
