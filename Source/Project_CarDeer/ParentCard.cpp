@@ -70,6 +70,7 @@ void AParentCard::Play()
 	PlayRot.Pitch += 180;
 	this->SetActorRotation(PlayRot);
 	bSHouldReturn = false;
+	bCanSelect = false;
 }
 
 void AParentCard::Return()

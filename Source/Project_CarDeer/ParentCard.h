@@ -41,6 +41,9 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite)
 	bool bSHouldReturn = true;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool bCanSelect = true;
 	
 	bool IsDrawed = true;
 	bool bShouldPlay;
