@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "IPropertyTable.h"
 #include "GameFramework/Actor.h"
 #include "MapUnit.generated.h"
 
