@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "IPropertyTable.h"
 #include "GameFramework/Actor.h"
 #include "MapUnit.generated.h"
 
@@ -35,6 +36,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int32 GetColumnIndex() const { return ColumnIndex; }
 
+	// 获取格子的索引
+	UFUNCTION(BlueprintCallable)
+	void GetMapUnitIndex(int32& Row, int32& Column);
+	
 	// 获取格子的内部数字
 	UFUNCTION(BlueprintCallable)
 	int32 GetUnitNum() const { return UnitNum; }

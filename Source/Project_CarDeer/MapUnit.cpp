@@ -35,6 +35,12 @@ void AMapUnit::SetUnitNum(int32 NewUnitNum)
 	UnitNum = NewUnitNum;
 }
 
+void AMapUnit::GetMapUnitIndex(int32& Row, int32& Column)
+{
+	Row = RowIndex;
+	Column = ColumnIndex;
+}
+
 
 // Called when the game starts or when spawned
 void AMapUnit::BeginPlay()
