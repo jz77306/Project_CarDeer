@@ -35,10 +35,7 @@ public:
 	// 获取格子的列索引
 	UFUNCTION(BlueprintCallable)
 	int32 GetColumnIndex() const { return ColumnIndex; }
-
-	// 获取格子的索引
-	UFUNCTION(BlueprintCallable)
-	void GetMapUnitIndex(int32& Row, int32& Column);
+	
 	
 	// 获取格子的内部数字
 	UFUNCTION(BlueprintCallable)
