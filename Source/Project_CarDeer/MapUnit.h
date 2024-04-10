@@ -35,6 +35,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int32 GetColumnIndex() const { return ColumnIndex; }
 
+	UFUNCTION(BlueprintCallable)
+	void GetIndex(int32& Row, int32& Column);
+	
 	// 获取格子的内部数字
 	UFUNCTION(BlueprintCallable)
 	int32 GetUnitNum() const { return UnitNum; }
